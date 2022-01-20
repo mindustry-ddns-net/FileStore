@@ -45,4 +45,12 @@ public class ConfigStore<T extends Config&Accessible> implements ObjectStore<T>{
 
         return factory.create(clazz, properties);
     }
+
+    public File getDirectory(){
+        return directory;
+    }
+
+    public Factory getFactory(){
+        return factory;
+    }
 }

@@ -39,4 +39,12 @@ public class JsonStore implements ObjectStore<Object>{
             throw new RuntimeException("Unable to store the object at the given location");
         }
     }
+
+    public File getDirectory(){
+        return directory;
+    }
+
+    public Gson getGson(){
+        return gson;
+    }
 }

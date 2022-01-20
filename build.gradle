@@ -1,0 +1,46 @@
+import java.nio.charset.StandardCharsets
+import net.ltgt.gradle.errorprone.CheckSeverity
+
+plugins {
+    id "java-library"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "net.ltgt.errorprone" version "2.0.2"
+}
+
+group 'net.mindustry_ddns'
+version '0.1'
+
+ext.versions = [
+    "gson"      : "2.8.9",
+    "owner"     : "1.0.12"
+]
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Libraries
+    implementation "com.google.code.gson:gson:${versions.gson}"
+    implementation "org.aeonbits.owner:owner-java8:${versions.owner}"
+
+    // Annotations
+    annotationProcessor "com.uber.nullaway:nullaway:0.9.4"
+    errorprone "com.google.errorprone:error_prone_core:2.10.0"
+    errorproneJavac "com.google.errorprone:javac:9+181-r4173-1"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+    options.encoding = StandardCharsets.UTF_8
+
+    options.errorprone.with{
+        disableWarningsInGeneratedCode = true
+        disable "MissingSummary"
+        if(!name.containsIgnoreCase("test")){
+            check("NullAway", CheckSeverity.ERROR)
+            option("NullAway:AnnotatedPackages", "net.mindustry_ddns.store")
+        }
+    }
+}

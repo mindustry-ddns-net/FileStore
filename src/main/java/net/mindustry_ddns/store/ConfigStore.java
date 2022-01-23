@@ -1,13 +1,12 @@
 package net.mindustry_ddns.store;
 
 import org.aeonbits.owner.*;
-
 import java.io.*;
 import java.nio.charset.*;
 import java.util.*;
 
+public class ConfigStore<T extends Config&Accessible> implements ObjectStore<T> {
 
-public class ConfigStore<T extends Config&Accessible> implements ObjectStore<T>{
     private final File directory;
     private final Factory factory;
 
@@ -16,29 +15,36 @@ public class ConfigStore<T extends Config&Accessible> implements ObjectStore<T>{
         this.factory = factory;
     }
 
-    public ConfigStore(String directory){
+    public ConfigStore(String directory) {
         this(directory, ConfigFactory.newInstance());
     }
 
-    @Override public void store(String name, T config){
-        final var file = new File(directory, name + ".properties");
-        file.getAbsoluteFile().getParentFile().mkdirs();
+    @Override
+    public void store(String name, T config) {
 
-        try(final var out = new FileOutputStream(file)){
-            config.store(out, name + " configuration file");
-        }catch(IOException e){
+        File file = new File(directory, name + ".properties");
+
+        if (!file.getAbsoluteFile().getParentFile().mkdirs())
+            throw new RuntimeException("Failed to create the config folder at " + file.getAbsolutePath());
+
+        try {
+            config.store(new FileOutputStream(file), name + " configuration file");
+        } catch(IOException e) {
             throw new RuntimeException("Failed to save the config " + config.getClass().getName() + " at " + file.getAbsolutePath(), e);
         }
     }
 
-    @Override public <R extends T> R load(String name, Class<R> clazz){
-        final var properties = new Properties();
-        final var file = new File(directory, name + ".properties");
+    @Override
+    public <R extends T> R load(String name, Class<R> clazz) {
 
-        if(file.exists()){
-            try(final var in = new FileReader(file, StandardCharsets.UTF_8)){
-                properties.load(in);
-            }catch(IOException e){
+        Properties properties = new Properties();
+        File file = new File(directory, name + ".properties");
+
+        if (file.exists()) {
+
+            try {
+                properties.load(new FileReader(file, StandardCharsets.UTF_8));
+            } catch (IOException e) {
                 throw new RuntimeException("Failed to load the config " + clazz.getSimpleName() + " at " + file.getAbsolutePath(), e);
             }
         }
@@ -46,11 +52,11 @@ public class ConfigStore<T extends Config&Accessible> implements ObjectStore<T>{
         return factory.create(clazz, properties);
     }
 
-    public File getDirectory(){
+    public File getDirectory() {
         return directory;
     }
 
-    public Factory getFactory(){
+    public Factory getFactory() {
         return factory;
     }
 }

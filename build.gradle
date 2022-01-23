@@ -39,7 +39,7 @@ tasks.withType(JavaCompile).configureEach {
         disableWarningsInGeneratedCode = true
         disable "MissingSummary"
         if(!name.containsIgnoreCase("test")){
-            check("NullAway", CheckSeverity.ERROR)
+            check("NullAway", CheckSeverity.WARN)
             option("NullAway:AnnotatedPackages", "net.mindustry_ddns.store")
         }
     }

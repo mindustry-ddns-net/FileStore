@@ -1,7 +1,8 @@
-package net.mindustry_ddns.store;
+package net.mindustry_ddns.store.util;
 
 import com.google.gson.*;
 import com.google.gson.stream.*;
+import net.mindustry_ddns.store.*;
 
 import java.io.*;
 import java.nio.charset.*;

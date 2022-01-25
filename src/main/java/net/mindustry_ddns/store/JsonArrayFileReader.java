@@ -4,7 +4,9 @@ import com.google.gson.*;
 import com.google.gson.stream.*;
 
 import java.io.*;
+import java.nio.charset.*;
 import java.util.*;
+
 
 public class JsonArrayFileReader<E> implements Iterator<E> {
     private final JsonReader reader;
@@ -14,7 +16,7 @@ public class JsonArrayFileReader<E> implements Iterator<E> {
 
     public JsonArrayFileReader(File file, Class<E> clazz, Gson gson) {
         try {
-            this.reader = new JsonReader(new FileReader(file));
+            this.reader = new JsonReader(new FileReader(file, StandardCharsets.UTF_8));
             this.clazz = clazz;
             this.gson = gson;
             reader.beginArray();

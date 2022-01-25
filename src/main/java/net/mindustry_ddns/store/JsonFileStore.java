@@ -4,21 +4,19 @@ import com.google.gson.*;
 
 import java.io.*;
 import java.nio.charset.*;
+import java.util.function.*;
 
-public class JsonFileStore<T> implements FileStore<T> {
-    private final Class<T> clazz;
+
+public class JsonFileStore<T> extends AbstractFileStore<T> {
     private final Gson gson;
-    private File file;
-    private T object;
 
-    public JsonFileStore(File file, Class<T> clazz, Gson gson) {
-        this.file = file;
-        this.clazz = clazz;
+    public JsonFileStore(File file, Class<T> clazz, Supplier<T> supplier, Gson gson) {
+        super(file, clazz, supplier);
         this.gson = gson;
     }
 
-    public JsonFileStore(File file, Class<T> clazz) {
-        this(file, clazz, new Gson());
+    public JsonFileStore(File file, Class<T> clazz, Supplier<T> supplier) {
+        this(file, clazz, supplier, new Gson());
     }
 
     public Gson getGson() {
@@ -26,48 +24,20 @@ public class JsonFileStore<T> implements FileStore<T> {
     }
 
     @Override
-    public T get() {
-        return object;
-    }
-
-    @Override
-    public Class<T> getObjectClass() {
-        return clazz;
-    }
-
-    @Override
-    public void set(T object) {
-        this.object = object;
-    }
-
-    @Override
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void save() {
-        file.getAbsoluteFile().getParentFile().mkdirs();
-
-        try (Writer writer = new FileWriter(file, StandardCharsets.UTF_8)) {
-            gson.toJson(object, clazz, writer);
+        try (final Writer writer = new FileWriter(getFile(), StandardCharsets.UTF_8)) {
+            gson.toJson(get(), getObjectClass(), writer);
         } catch (IOException e) {
-            throw new RuntimeException("Unable to save the object at " + file, e);
+            throw new RuntimeException("Unable to save the object at " + getFile(), e);
         }
     }
 
     @Override
-    public void load() {
-        try (Reader reader = new FileReader(file, StandardCharsets.UTF_8)) {
-            this.object = gson.fromJson(reader, clazz);
+    protected T load() {
+        try (final Reader reader = new FileReader(getFile(), StandardCharsets.UTF_8)) {
+            return gson.fromJson(reader, getObjectClass());
         } catch (IOException e) {
-            throw new RuntimeException("Unable to load the object at " + file, e);
+            throw new RuntimeException("Unable to load the object at " + getFile(), e);
         }
-    }
-
-    @Override
-    public File getFile() {
-        return file;
-    }
-
-    @Override
-    public void setFile(File file) {
-        this.file = file;
     }
 }

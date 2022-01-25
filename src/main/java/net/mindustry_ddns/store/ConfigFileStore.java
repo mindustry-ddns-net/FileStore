@@ -5,21 +5,23 @@ import org.aeonbits.owner.*;
 import java.io.*;
 import java.nio.charset.*;
 import java.util.*;
+import java.util.function.*;
 
-public class ConfigFileStore<T extends Accessible> implements FileStore<T> {
-    private final Class<T> clazz;
+
+public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> {
     private final Factory factory;
-    private File file;
-    private T config = null;
 
-    public ConfigFileStore(File file, Class<T> clazz, Factory factory) {
-        this.file = file;
-        this.clazz = clazz;
+    public ConfigFileStore(File file, Class<T> clazz, Supplier<T> supplier, Factory factory) {
+        super(file, clazz, supplier);
         this.factory = factory;
     }
 
+    public ConfigFileStore(File file, Class<T> clazz, Supplier<T> supplier) {
+        this(file, clazz, supplier, SingletonConfigFactory.getInstance());
+    }
+
     public ConfigFileStore(File file, Class<T> clazz) {
-        this(file, clazz, ConfigFactory.newInstance());
+        this(file, clazz, () -> SingletonConfigFactory.getInstance().create(clazz));
     }
 
     public Factory getFactory() {
@@ -27,54 +29,26 @@ public class ConfigFileStore<T extends Accessible> implements FileStore<T> {
     }
 
     @Override
-    public T get() {
-        return config;
-    }
-
-    @Override
-    public Class<T> getObjectClass() {
-        return clazz;
-    }
-
-    @Override
-    public void set(T config) {
-        throw new UnsupportedOperationException("Configs can't be set.");
-    }
-
-    @Override
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void save() {
-        file.getAbsoluteFile().getParentFile().mkdirs();
-
-        try (OutputStream stream = new FileOutputStream(file)) {
-            config.store(stream, null);
+        try (final OutputStream out = new FileOutputStream(getFile())) {
+            get().store(out, null);
         } catch (IOException e) {
-            throw new RuntimeException("Unable to save the config at " + file, e);
+            throw new RuntimeException("Unable to save the config at " + getFile(), e);
         }
     }
 
     @Override
-    public void load() {
+    protected T load() {
         Properties properties = new Properties();
 
-        if (file.exists()) {
-            try (Reader reader = new FileReader(file, StandardCharsets.UTF_8)) {
+        if (getFile().exists()) {
+            try (final var reader = new FileReader(getFile(), StandardCharsets.UTF_8)) {
                 properties.load(reader);
             } catch (IOException e) {
-                throw new RuntimeException("Unable to load the config at " + file, e);
+                throw new RuntimeException("Unable to load the config at " + getFile(), e);
             }
         }
 
-        this.config = factory.create(clazz, properties);
-    }
-
-    @Override
-    public File getFile() {
-        return file;
-    }
-
-    @Override
-    public void setFile(File file) {
-        this.file = file;
+        return factory.create(getObjectClass(), properties);
     }
 }

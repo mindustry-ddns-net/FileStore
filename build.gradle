@@ -1,5 +1,4 @@
 import java.nio.charset.StandardCharsets
-import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
     id "java-library"
@@ -25,7 +24,6 @@ dependencies {
     implementation "org.aeonbits.owner:owner-java8:${versions.owner}"
 
     // Annotations
-    annotationProcessor "com.uber.nullaway:nullaway:0.9.4"
     errorprone "com.google.errorprone:error_prone_core:2.10.0"
     errorproneJavac "com.google.errorprone:javac:9+181-r4173-1"
 }
@@ -38,9 +36,5 @@ tasks.withType(JavaCompile).configureEach {
     options.errorprone.with{
         disableWarningsInGeneratedCode = true
         disable "MissingSummary"
-        if(!name.containsIgnoreCase("test")){
-            check("NullAway", CheckSeverity.WARN)
-            option("NullAway:AnnotatedPackages", "net.mindustry_ddns.store")
-        }
     }
 }

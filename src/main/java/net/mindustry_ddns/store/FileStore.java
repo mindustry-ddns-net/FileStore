@@ -12,13 +12,9 @@ public interface FileStore<T> {
 
     void save();
 
-    void load();
+    void reload();
 
     File getFile();
 
     void setFile(File file);
-
-    default void setFile(String file) {
-        setFile(new File(file));
-    }
 }

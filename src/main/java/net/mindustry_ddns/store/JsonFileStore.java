@@ -13,6 +13,7 @@ public class JsonFileStore<T> extends AbstractFileStore<T> {
     public JsonFileStore(File file, Class<T> clazz, Supplier<T> supplier, Gson gson) {
         super(file, clazz, supplier);
         this.gson = gson;
+        load();
     }
 
     public JsonFileStore(File file, Class<T> clazz, Supplier<T> supplier) {

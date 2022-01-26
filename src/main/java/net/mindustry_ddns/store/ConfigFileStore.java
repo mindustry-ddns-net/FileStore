@@ -15,6 +15,7 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
     public ConfigFileStore(File file, Class<T> clazz, Supplier<T> supplier, Factory factory) {
         super(file, clazz, supplier);
         this.factory = factory;
+        load();
     }
 
     public ConfigFileStore(File file, Class<T> clazz, Supplier<T> supplier) {

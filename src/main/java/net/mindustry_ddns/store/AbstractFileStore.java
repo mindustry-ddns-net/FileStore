@@ -13,6 +13,7 @@ public abstract class AbstractFileStore<T> implements FileStore<T> {
         this.file = file;
         this.clazz = clazz;
         this.object = supplier.get();
+        load();
     }
 
     @Override
@@ -42,6 +43,6 @@ public abstract class AbstractFileStore<T> implements FileStore<T> {
 
     @Override
     public String toString() {
-        return get().toString();
+        return object.toString();
     }
 }

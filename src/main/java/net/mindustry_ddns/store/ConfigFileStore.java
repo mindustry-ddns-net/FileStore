@@ -25,6 +25,18 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
         this(file, clazz, () -> SingletonConfigFactory.getInstance().create(clazz));
     }
 
+    public static <T extends Accessible> ConfigFileStore<T> of(File file, Class<T> clazz, Supplier<T> supplier, Factory factory) {
+        ConfigFileStore<T> store = new ConfigFileStore<>(file, clazz, supplier, factory);
+        store.reload();
+        return store;
+    }
+
+    public static <T extends Accessible> ConfigFileStore<T> of(File file, Class<T> clazz, Supplier<T> supplier) {
+        ConfigFileStore<T> store = new ConfigFileStore<>(file, clazz, supplier);
+        store.reload();
+        return store;
+    }
+
     public Factory getFactory() {
         return factory;
     }
@@ -40,6 +52,8 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
 
     @Override
     protected T load() {
+        if (!getFile().exists()) return get();
+
         Properties properties = new Properties();
 
         if (getFile().exists()) {

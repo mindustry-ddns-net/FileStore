@@ -12,7 +12,7 @@ public abstract class AbstractFileStore<T> implements FileStore<T> {
     public AbstractFileStore(File file, Class<T> clazz, Supplier<T> supplier) {
         this.file = file;
         this.clazz = clazz;
-        this.object = file.exists() ? load() : supplier.get();
+        this.object = supplier.get();
     }
 
     @Override
@@ -46,4 +46,9 @@ public abstract class AbstractFileStore<T> implements FileStore<T> {
     }
 
     protected abstract T load();
+
+    @Override
+    public String toString() {
+        return object.toString();
+    }
 }

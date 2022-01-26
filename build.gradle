@@ -4,10 +4,11 @@ plugins {
     id "java-library"
     id "com.github.johnrengelman.shadow" version "7.1.2"
     id "net.ltgt.errorprone" version "2.0.2"
+    id "net.kyori.indra.publishing" version "2.0.6"
 }
 
 group 'net.mindustry_ddns'
-version '0.1'
+version '1.0'
 
 ext.versions = [
     "gson"      : "2.8.9",
@@ -36,5 +37,39 @@ tasks.withType(JavaCompile).configureEach {
     options.errorprone.with{
         disableWarningsInGeneratedCode = true
         disable "MissingSummary"
+    }
+}
+
+// Ugly way to avoid publishing shadow artifacts to maven repos
+// -> https://github.com/johnrengelman/shadow/issues/651
+components.withType(AdhocComponentWithVariants).forEach{ c ->
+    c.withVariantsFromConfiguration(configurations.shadowRuntimeElements){ skip() }
+}
+
+indra{
+    publishReleasesTo("xpdustry", "https://repo.xpdustry.fr/releases")
+
+    mitLicense()
+    github("mindustry-ddns-net", "FileStore"){
+        ci(true)
+        issues(true)
+    }
+
+    configurePublications{
+        from components.java
+
+        pom{
+            developers{
+                developer{
+                    id = "Phinner"
+                    url = "https://www.xpdustry.fr"
+                }
+
+                developer{
+                    id = "Xasmedy"
+                    url = "https://mindustry.ddns.net"
+                }
+            }
+        }
     }
 }

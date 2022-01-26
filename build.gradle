@@ -75,8 +75,8 @@ publishing{
             url = "https://repo.xpdustry.fr/releases"
 
             credentials{
-                username = System.getenv("xpdustryUsername") ?: ""
-                password = System.getenv("xpdustryPassword") ?: ""
+                username = System.getenv("XPDUSTRY_MAVEN_USERNAME") ?: ""
+                password = System.getenv("XPDUSTRY_MAVEN_PASSWORD") ?: ""
             }
         }
     }

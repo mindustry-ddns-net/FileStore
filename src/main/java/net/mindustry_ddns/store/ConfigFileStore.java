@@ -37,14 +37,22 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
         return store;
     }
 
+    public static <T extends Accessible> ConfigFileStore<T> of(File file, Class<T> clazz) {
+        ConfigFileStore<T> store = new ConfigFileStore<>(file, clazz);
+        store.reload();
+        return store;
+    }
+
     public Factory getFactory() {
         return factory;
     }
 
     @Override
     public void save() {
-        try (final OutputStream out = new FileOutputStream(getFile())) {
-            get().store(out, null);
+        try (final Writer writer = new FileWriter(getFile())) {
+            Properties properties = new Properties();
+            get().fill(properties);
+            properties.store(writer, null);
         } catch (IOException e) {
             throw new RuntimeException("Unable to save the config at " + getFile(), e);
         }
@@ -57,7 +65,7 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
         Properties properties = new Properties();
 
         if (getFile().exists()) {
-            try (final var reader = new FileReader(getFile(), StandardCharsets.UTF_8)) {
+            try (final Reader reader = new FileReader(getFile(), StandardCharsets.UTF_8)) {
                 properties.load(reader);
             } catch (IOException e) {
                 throw new RuntimeException("Unable to load the config at " + getFile(), e);

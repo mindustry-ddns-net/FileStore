@@ -48,7 +48,10 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
     }
 
     @Override
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void save() {
+        getFile().getParentFile().mkdirs();
+
         try (final Writer writer = new FileWriter(getFile(), StandardCharsets.UTF_8)) {
             Properties properties = new Properties();
             get().fill(properties);

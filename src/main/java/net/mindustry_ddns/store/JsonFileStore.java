@@ -36,7 +36,10 @@ public class JsonFileStore<T> extends AbstractFileStore<T> {
     }
 
     @Override
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void save() {
+        getFile().getParentFile().mkdirs();
+
         try (final Writer writer = new FileWriter(getFile(), StandardCharsets.UTF_8)) {
             gson.toJson(get(), getObjectClass(), writer);
         } catch (IOException e) {

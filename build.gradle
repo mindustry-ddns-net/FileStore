@@ -4,7 +4,7 @@ plugins {
     id "java-library"
     id "com.github.johnrengelman.shadow" version "7.1.2"
     id "net.ltgt.errorprone" version "2.0.2"
-    id "net.kyori.indra.publishing" version "2.0.6"
+    id "maven-publish"
 }
 
 group 'net.mindustry_ddns'
@@ -46,29 +46,37 @@ components.withType(AdhocComponentWithVariants).forEach{ c ->
     c.withVariantsFromConfiguration(configurations.shadowRuntimeElements){ skip() }
 }
 
-indra{
-    publishReleasesTo("xpdustry", "https://repo.xpdustry.fr/releases")
+publishing{
+    publications{
+        create("maven", MavenPublication){
+            from components.java
 
-    mitLicense()
-    github("mindustry-ddns-net", "FileStore"){
-        ci(true)
-        issues(true)
+            pom{
+                url = "https://github.com/mindustry-ddns-net/FileStore"
+
+                developers{
+                    developer{
+                        id = "Phinner"
+                        url = "https://www.xpdustry.fr"
+                    }
+
+                    developer{
+                        id = "Xasmedy"
+                        url = "https://mindustry.ddns.net"
+                    }
+                }
+            }
+        }
     }
 
-    configurePublications{
-        from components.java
+    repositories{
+        maven{
+            name = "xpdustry"
+            url = "https://repo.xpdustry.fr/releases"
 
-        pom{
-            developers{
-                developer{
-                    id = "Phinner"
-                    url = "https://www.xpdustry.fr"
-                }
-
-                developer{
-                    id = "Xasmedy"
-                    url = "https://mindustry.ddns.net"
-                }
+            credentials{
+                username = System.getenv("xpdustryUsername") ?: ""
+                password = System.getenv("xpdustryPassword") ?: ""
             }
         }
     }

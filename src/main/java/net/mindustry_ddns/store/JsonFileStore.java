@@ -19,18 +19,6 @@ public class JsonFileStore<T> extends AbstractFileStore<T> {
         this(file, clazz, supplier, new Gson());
     }
 
-    public static <T> JsonFileStore<T> of(File file, Class<T> clazz, Supplier<T> supplier, Gson gson) {
-        JsonFileStore<T> store = new JsonFileStore<>(file, clazz, supplier, gson);
-        store.reload();
-        return store;
-    }
-
-    public static <T> JsonFileStore<T> of(File file, Class<T> clazz, Supplier<T> supplier) {
-        JsonFileStore<T> store = new JsonFileStore<>(file, clazz, supplier);
-        store.reload();
-        return store;
-    }
-
     public Gson getGson() {
         return gson;
     }
@@ -48,11 +36,14 @@ public class JsonFileStore<T> extends AbstractFileStore<T> {
     }
 
     @Override
-    protected T load() {
-        if (!getFile().exists()) return get();
+    public void load() {
+        if (!getFile().exists()) {
+            save();
+            return;
+        }
 
         try (final Reader reader = new FileReader(getFile(), StandardCharsets.UTF_8)) {
-            return gson.fromJson(reader, getObjectClass());
+            set(gson.fromJson(reader, getObjectClass()));
         } catch (IOException e) {
             throw new RuntimeException("Unable to load the object at " + getFile(), e);
         }

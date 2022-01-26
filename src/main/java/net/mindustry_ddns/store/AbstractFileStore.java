@@ -21,18 +21,8 @@ public abstract class AbstractFileStore<T> implements FileStore<T> {
     }
 
     @Override
-    public Class<T> getObjectClass() {
-        return clazz;
-    }
-
-    @Override
     public void set(T object) {
         this.object = object;
-    }
-
-    @Override
-    public void reload() {
-        this.object = load();
     }
 
     @Override
@@ -45,10 +35,13 @@ public abstract class AbstractFileStore<T> implements FileStore<T> {
         this.file = file;
     }
 
-    protected abstract T load();
+    @Override
+    public Class<T> getObjectClass() {
+        return clazz;
+    }
 
     @Override
     public String toString() {
-        return object.toString();
+        return get().toString();
     }
 }

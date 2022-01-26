@@ -49,7 +49,7 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
 
     @Override
     public void save() {
-        try (final Writer writer = new FileWriter(getFile())) {
+        try (final Writer writer = new FileWriter(getFile(), StandardCharsets.UTF_8)) {
             Properties properties = new Properties();
             get().fill(properties);
             properties.store(writer, null);

@@ -4,6 +4,17 @@
 
 File management library.
 
+To use in your project, add it in your `build.gradle`:
+```gradle
+repositories {
+    maven { url "https://repo.xpdustry.fr/releases" }
+}
+
+dependencies {
+    implementation "net.mindustry_ddns:file-store:1.2.0"
+}
+```
+
 ## Usage
 
 This library is very easy to use. It provides a [property](http://owner.aeonbits.org/) and [json](https://github.com/google/gson) based file stores by default.

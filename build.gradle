@@ -11,16 +11,16 @@ group 'net.mindustry_ddns'
 version '1.2.0'
 
 ext.versions = [
-    "gson"      : "2.8.9",
-    "owner"     : "1.0.12"
+        "gson" : "2.8.9",
+        "owner": "1.0.12"
 ]
 
-java{
+java {
     withSourcesJar()
     withJavadocJar()
 }
 
-javadoc{
+javadoc {
     options.addStringOption('Xdoclint:none', '-quiet')
 }
 
@@ -43,7 +43,7 @@ tasks.withType(JavaCompile).configureEach {
     targetCompatibility = JavaVersion.VERSION_16
     options.encoding = StandardCharsets.UTF_8
 
-    options.errorprone.with{
+    options.errorprone.with {
         disableWarningsInGeneratedCode = true
         disable "MissingSummary"
     }
@@ -51,37 +51,37 @@ tasks.withType(JavaCompile).configureEach {
 
 // Ugly way to avoid publishing shadow artifacts to maven repos
 // -> https://github.com/johnrengelman/shadow/issues/651
-components.withType(AdhocComponentWithVariants).forEach{ c ->
-    c.withVariantsFromConfiguration(configurations.shadowRuntimeElements){ skip() }
+components.withType(AdhocComponentWithVariants).forEach { c ->
+    c.withVariantsFromConfiguration(configurations.shadowRuntimeElements) { skip() }
 }
 
-publishing{
-    publications{
-        create("maven", MavenPublication){
+publishing {
+    publications {
+        create("maven", MavenPublication) {
             from components.java
 
-            pom{
+            pom {
                 url = "https://github.com/mindustry-ddns-net/FileStore"
 
-                organization{
+                organization {
                     name = "MDN"
                     url = "https://mindustry.ddns.net"
                 }
 
-                developers{
-                    developer{ id = "Phinner" }
-                    developer{ id = "Xasmedy" }
+                developers {
+                    developer { id = "Phinner" }
+                    developer { id = "Xasmedy" }
                 }
             }
         }
     }
 
-    repositories{
-        maven{
+    repositories {
+        maven {
             name = "xpdustry"
             url = "https://repo.xpdustry.fr/releases"
 
-            credentials{
+            credentials {
                 username = System.getenv("XPDUSTRY_MAVEN_USERNAME") ?: ""
                 password = System.getenv("XPDUSTRY_MAVEN_PASSWORD") ?: ""
             }

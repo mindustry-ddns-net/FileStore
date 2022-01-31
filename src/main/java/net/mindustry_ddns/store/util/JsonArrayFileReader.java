@@ -59,7 +59,7 @@ public class JsonArrayFileReader<E> implements Iterator<E> {
     @Override
     public boolean hasNext() {
         try {
-            if (reader.hasNext()) {
+            if (!closed && reader.hasNext()) {
                 return true;
             } else {
                 if (!closed)
@@ -83,7 +83,7 @@ public class JsonArrayFileReader<E> implements Iterator<E> {
         if (!closed) {
             return gson.fromJson(reader, type);
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("No more elements to read.");
         }
     }
 }

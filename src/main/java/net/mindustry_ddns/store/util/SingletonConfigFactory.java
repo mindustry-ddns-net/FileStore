@@ -6,6 +6,9 @@ import org.aeonbits.owner.loaders.*;
 import java.util.*;
 
 
+/**
+ * A {@link Factory} view of {@link ConfigFactory}.
+ */
 public final class SingletonConfigFactory implements Factory {
     private static final SingletonConfigFactory INSTANCE = new SingletonConfigFactory();
 

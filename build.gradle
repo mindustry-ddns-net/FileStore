@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'net.mindustry_ddns'
-version '1.1.2'
+version '1.2.0'
 
 ext.versions = [
     "gson"      : "2.8.9",
@@ -63,16 +63,14 @@ publishing{
             pom{
                 url = "https://github.com/mindustry-ddns-net/FileStore"
 
-                developers{
-                    developer{
-                        id = "Phinner"
-                        url = "https://www.xpdustry.fr"
-                    }
+                organization{
+                    name = "MDN"
+                    url = "https://mindustry.ddns.net"
+                }
 
-                    developer{
-                        id = "Xasmedy"
-                        url = "https://mindustry.ddns.net"
-                    }
+                developers{
+                    developer{ id = "Phinner" }
+                    developer{ id = "Xasmedy" }
                 }
             }
         }

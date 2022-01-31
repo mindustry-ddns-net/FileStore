@@ -5,13 +5,11 @@ import java.util.function.*;
 
 
 public abstract class AbstractFileStore<T> implements FileStore<T> {
-    private final Class<T> clazz;
     private File file;
     private T object;
 
-    public AbstractFileStore(File file, Class<T> clazz, Supplier<T> supplier) {
+    public AbstractFileStore(File file, Supplier<T> supplier) {
         this.file = file;
-        this.clazz = clazz;
         this.object = supplier.get();
     }
 
@@ -33,11 +31,6 @@ public abstract class AbstractFileStore<T> implements FileStore<T> {
     @Override
     public void setFile(File file) {
         this.file = file;
-    }
-
-    @Override
-    public Class<T> getObjectClass() {
-        return clazz;
     }
 
     @Override

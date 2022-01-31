@@ -39,9 +39,4 @@ public interface FileStore<T> {
      * The parent directories are created if needed.
      */
     void load();
-
-    /**
-     * @return the class of the stored object
-     */
-    Class<T> getObjectClass();
 }

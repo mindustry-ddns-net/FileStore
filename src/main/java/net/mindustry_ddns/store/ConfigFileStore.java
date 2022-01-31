@@ -6,24 +6,29 @@ import org.aeonbits.owner.*;
 import java.io.*;
 import java.nio.charset.*;
 import java.util.*;
-import java.util.function.*;
 
 
+/**
+ * A property based store backed by the OWNER library.
+ * Make sure to read the <a href="http://owner.aeonbits.org/docs/usage/">base documentation</a> before using this store.
+ * It is recommended to avoid the usage of {@link org.aeonbits.owner.Config.Sources} or {@link org.aeonbits.owner.Config.HotReload} annotations
+ * on your {@link Config} due to the fact it is already handled by this store.
+ *
+ * @param <T> the config type
+ */
 public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> {
     private final Factory factory;
+    private final Class<T> clazz;
 
-    public ConfigFileStore(File file, Class<T> clazz, Supplier<T> supplier, Factory factory) {
-        super(file, clazz, supplier);
+    public ConfigFileStore(File file, Class<T> clazz, Factory factory) {
+        super(file, () -> factory.create(clazz));
         this.factory = factory;
+        this.clazz = clazz;
         load();
     }
 
-    public ConfigFileStore(File file, Class<T> clazz, Supplier<T> supplier) {
-        this(file, clazz, supplier, SingletonConfigFactory.getInstance());
-    }
-
     public ConfigFileStore(File file, Class<T> clazz) {
-        this(file, clazz, () -> SingletonConfigFactory.getInstance().create(clazz));
+        this(file, clazz, SingletonConfigFactory.getInstance());
     }
 
     public Factory getFactory() {
@@ -59,6 +64,6 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
             throw new RuntimeException("Unable to load the config at " + getFile(), e);
         }
 
-        set(factory.create(getObjectClass(), properties));
+        set(factory.create(clazz, properties));
     }
 }

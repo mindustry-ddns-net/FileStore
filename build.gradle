@@ -12,12 +12,17 @@ version '1.3.0'
 
 ext.versions = [
         "gson" : "2.8.9",
-        "owner": "1.0.12"
+        "owner": "1.0.12",
+        "junit": "5.8.2"
 ]
 
 java {
     withSourcesJar()
     withJavadocJar()
+}
+
+test {
+    useJUnitPlatform()
 }
 
 javadoc {
@@ -30,9 +35,16 @@ repositories {
 
 dependencies {
     // Libraries
-    api "wow"
     implementation "com.google.code.gson:gson:${versions.gson}"
     implementation "org.aeonbits.owner:owner-java8:${versions.owner}"
+
+    // Tests
+    testImplementation "com.google.code.gson:gson:${versions.gson}"
+    testImplementation "org.aeonbits.owner:owner-java8:${versions.owner}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-params:${versions.junit}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${versions.junit}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${versions.junit}"
 
     // Annotations
     errorprone "com.google.errorprone:error_prone_core:2.11.0"

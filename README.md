@@ -41,7 +41,9 @@ You'll just have to do:
 FileStore<PersonConfig> store = new ConfigFileStore("./john.properties", PersonConfig.class);
 ```
 
-to create and load the config.
+to create the config file store.
+
+If you call the `load()` method, it will try to load the file if it exists, otherwise, it will create it.
 
 ## Tips
 

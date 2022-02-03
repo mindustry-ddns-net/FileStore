@@ -4,11 +4,16 @@ import java.io.*;
 import java.util.function.*;
 
 
+/**
+ * Base class for specific implementations of a file store.
+ *
+ * @param <T> the stored object type
+ */
 public abstract class AbstractFileStore<T> implements FileStore<T> {
     private File file;
     private T object;
 
-    public AbstractFileStore(File file, Supplier<T> supplier) {
+    protected AbstractFileStore(File file, Supplier<T> supplier) {
         this.file = file;
         this.object = supplier.get();
     }
@@ -29,8 +34,8 @@ public abstract class AbstractFileStore<T> implements FileStore<T> {
     }
 
     @Override
-    public void setFile(File file) {
-        this.file = file;
+    public void setFile(String path) {
+        this.file = new File(path);
     }
 
     @Override

@@ -3,6 +3,11 @@ package net.mindustry_ddns.store;
 import java.io.*;
 
 
+/**
+ * A {@code FileStore} provides easier management of io operations with objects.
+ *
+ * @param <T> the stored object type
+ */
 public interface FileStore<T> {
     /**
      * @return the stored object
@@ -17,16 +22,16 @@ public interface FileStore<T> {
     void set(T object);
 
     /**
-     * @return the file the object is stored
+     * @return the file where the object is stored
      */
     File getFile();
 
     /**
-     * Set the file where the stored object is saved.
+     * Set the file where the object is stored.
      *
-     * @param file the file to write to
+     * @param path the path of the file
      */
-    void setFile(File file);
+    void setFile(String path);
 
     /**
      * Save the stored object to the file.
@@ -35,8 +40,8 @@ public interface FileStore<T> {
     void save();
 
     /**
-     * Load the stored object from the file. If it doesn't exist, the file is created.
-     * The parent directories are created if needed.
+     * Load the stored object from the file.
+     * If the file doesn't exist, it is created, with its parent directories if needed.
      */
     void load();
 }

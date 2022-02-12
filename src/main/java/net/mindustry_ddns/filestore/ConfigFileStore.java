@@ -1,12 +1,10 @@
-package net.mindustry_ddns.store;
+package net.mindustry_ddns.filestore;
 
-import net.mindustry_ddns.store.util.*;
+import net.mindustry_ddns.filestore.util.*;
 import org.aeonbits.owner.*;
-
 import java.io.*;
 import java.nio.charset.*;
 import java.util.*;
-
 
 /**
  * A property based store backed by the <a href="http://owner.aeonbits.org/">OWNER library</a>.
@@ -22,6 +20,7 @@ import java.util.*;
  * @param <T> the stored config type
  */
 public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> {
+
     private final Factory factory;
     private final Class<T> clazz;
 
@@ -34,6 +33,7 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
      * @param imports imported properties for the initial value of the file store
      */
     public ConfigFileStore(String path, Class<T> clazz, Factory factory, Map<?, ?>... imports) {
+
         super(new File(path), () -> factory.create(clazz, imports));
         this.factory = factory;
         this.clazz = clazz;
@@ -54,6 +54,7 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
      * @see ConfigFileStore#ConfigFileStore(String, Class, Factory, Map[])
      */
     public static <T extends Accessible> ConfigFileStore<T> load(String path, Class<T> clazz, Factory factory, Map<?, ?>... imports) {
+
         ConfigFileStore<T> store = new ConfigFileStore<>(path, clazz, factory, imports);
         store.load();
         return store;
@@ -65,6 +66,7 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
      * @see ConfigFileStore#ConfigFileStore(String, Class, Map[])
      */
     public static <T extends Accessible> ConfigFileStore<T> load(String path, Class<T> clazz, Map<?, ?>... imports) {
+
         ConfigFileStore<T> store = new ConfigFileStore<>(path, clazz, imports);
         store.load();
         return store;
@@ -73,9 +75,11 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
     @Override
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void save() {
+
         getFile().getAbsoluteFile().getParentFile().mkdirs();
 
         try (final Writer writer = new FileWriter(getFile(), StandardCharsets.UTF_8)) {
+
             Properties properties = new Properties();
             get().fill(properties);
             properties.store(writer, null);
@@ -86,16 +90,19 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
 
     @Override
     public void load() {
+
         if (!getFile().exists()) {
             save();
-        } else {
-            try (final Reader reader = new FileReader(getFile(), StandardCharsets.UTF_8)) {
-                Properties properties = new Properties();
-                properties.load(reader);
-                set(factory.create(clazz, properties));
-            } catch (IOException e) {
-                throw new RuntimeException("Unable to load the config at " + getFile(), e);
-            }
+            return;
+        }
+
+        try (final Reader reader = new FileReader(getFile(), StandardCharsets.UTF_8)) {
+
+            Properties properties = new Properties();
+            properties.load(reader);
+            set(factory.create(clazz, properties));
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to load the config at " + getFile(), e);
         }
     }
 

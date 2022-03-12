@@ -1,8 +1,7 @@
-package net.mindustry_ddns.store;
+package net.mindustry_ddns.filestore;
 
 import java.io.*;
 import java.util.function.*;
-
 
 /**
  * Base class for specific implementations of a file store.
@@ -10,6 +9,7 @@ import java.util.function.*;
  * @param <T> the stored object type
  */
 public abstract class AbstractFileStore<T> implements FileStore<T> {
+
     private File file;
     private T object;
 

@@ -8,11 +8,11 @@ To use in your project, add it in your `build.gradle`:
 
 ```gradle
 repositories {
-    maven { url "https://repo.xpdustry.fr/releases" }
+    maven { url = uri("https://repo.xpdustry.fr/releases") }
 }
 
 dependencies {
-    implementation "net.mindustry_ddns:file-store:1.4.0"
+    implementation("net.mindustry_ddns:file-store:1.4.0")
 }
 ```
 

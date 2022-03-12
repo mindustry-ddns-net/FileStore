@@ -1,31 +1,37 @@
 package net.mindustry_ddns.filestore;
 
-import net.mindustry_ddns.filestore.util.*;
-import org.aeonbits.owner.*;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.io.*;
+import net.mindustry_ddns.filestore.util.TestConfig;
+import org.aeonbits.owner.ConfigFactory;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-import java.io.*;
-import java.nio.charset.*;
-import java.nio.file.*;
-import java.util.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Map;
+import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ConfigFileStoreTest {
+
     @TempDir
     @SuppressWarnings("unused")
     private Path temporaryDir;
     private String path;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         // Adding "test-dir" to check if it creates the parent directories
         path = temporaryDir.resolve("test-dir").resolve("test.properties").toAbsolutePath().toString();
     }
 
     @Test
-    public void test_file_save() throws IOException {
+    void test_file_save() throws IOException {
         ConfigFileStore<TestConfig> store = new ConfigFileStore<>(path, TestConfig.class);
 
         // Checks if it saves correctly
@@ -46,7 +52,7 @@ public class ConfigFileStoreTest {
     }
 
     @Test
-    public void test_file_load() throws IOException {
+    void test_file_load() throws IOException {
         ConfigFileStore<TestConfig> store = new ConfigFileStore<>(path, TestConfig.class);
 
         // Checks if it creates the file when it does not exist

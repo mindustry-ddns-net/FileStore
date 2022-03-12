@@ -1,6 +1,5 @@
 package net.mindustry_ddns.filestore;
 
-import net.mindustry_ddns.filestore.util.TestObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -11,10 +10,12 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
+import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JsonFileStoreTest {
+public class PropertiesFileStoreTest {
 
     @TempDir
     @SuppressWarnings("unused")
@@ -24,30 +25,34 @@ public class JsonFileStoreTest {
     @BeforeEach
     void setup() {
         // Adding "test-dir" to check if it creates the parent directories
-        path = temporaryDir.resolve("test-dir").resolve("test.json").toAbsolutePath().toString();
+        path = temporaryDir.resolve("test-dir").resolve("test.properties").toAbsolutePath().toString();
     }
 
     @Test
     void test_file_save() throws IOException {
-        JsonFileStore<TestObject> store = new JsonFileStore<>(path, TestObject.class, TestObject::new);
+        PropertiesFileStore store = new PropertiesFileStore(path);
 
         // Checks if it saves correctly
         assertFalse(store.getFile().exists());
         store.save();
         assertTrue(store.getFile().exists());
 
-        // Checks if it saves the object correctly
-        store.get().setLuckyNumber(13);
+        // Checks if it saves the new config correctly
+        Properties properties = new Properties();
+        properties.put("test.lucky-number", "13");
+        store.set(properties);
         store.save();
+
         try (Reader reader = new FileReader(path, StandardCharsets.UTF_8)) {
-            TestObject object = store.getGson().fromJson(reader, TestObject.class);
-            assertEquals(object.getLuckyNumber(), 13);
+            Properties loaded = new Properties();
+            loaded.load(reader);
+            assertEquals(loaded.getProperty("test.lucky-number"), "13");
         }
     }
 
     @Test
     void test_file_load() throws IOException {
-        JsonFileStore<TestObject> store = new JsonFileStore<>(path, TestObject.class, TestObject::new);
+        PropertiesFileStore store = new PropertiesFileStore(path);
 
         // Checks if it creates the file when it does not exist
         assertFalse(store.getFile().exists());
@@ -55,8 +60,18 @@ public class JsonFileStoreTest {
         assertTrue(store.getFile().exists());
 
         // Checks if it loads the new value correctly
-        Files.writeString(Path.of(path), "{\"luckyNumber\": 13}");
+        Files.writeString(Path.of(path), "test.lucky-number = 13");
         store.load();
-        assertEquals(store.get().getLuckyNumber(), 13);
+        assertEquals(store.get().getProperty("test.lucky-number"), "13");
+    }
+
+    @Test
+    void test_properties_imports() {
+        Map<String, String> import1 = Map.of("test.prop1", "12");
+        Map<String, String> import2 = Map.of("test.prop2", "45");
+        PropertiesFileStore store = new PropertiesFileStore(path, import1, import2);
+
+        assertEquals(store.get().getProperty("test.prop1"), "12");
+        assertEquals(store.get().getProperty("test.prop2"), "45");
     }
 }

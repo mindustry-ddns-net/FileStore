@@ -1,11 +1,14 @@
 package net.mindustry_ddns.filestore;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
 
 import java.io.*;
-import java.lang.reflect.*;
-import java.nio.charset.*;
-import java.util.function.*;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.util.function.Supplier;
 
 
 /**
@@ -22,6 +25,7 @@ import java.util.function.*;
  * @param <T> the stored object type
  */
 public class JsonFileStore<T> extends AbstractFileStore<T> {
+
     private final Type type;
     private final Gson gson;
 
@@ -71,27 +75,16 @@ public class JsonFileStore<T> extends AbstractFileStore<T> {
     }
 
     @Override
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void save() {
-        getFile().getAbsoluteFile().getParentFile().mkdirs();
-
-        try (final Writer writer = new FileWriter(getFile(), StandardCharsets.UTF_8)) {
+    protected void saveImpl() throws IOException {
+        try (Writer writer = new FileWriter(getFile(), StandardCharsets.UTF_8)) {
             gson.toJson(get(), type, writer);
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to save the object at " + getFile(), e);
         }
     }
 
     @Override
-    public void load() {
-        if (!getFile().exists()) {
-            save();
-        } else {
-            try (final Reader reader = new FileReader(getFile(), StandardCharsets.UTF_8)) {
-                set(gson.fromJson(reader, type));
-            } catch (IOException e) {
-                throw new RuntimeException("Unable to load the object at " + getFile(), e);
-            }
+    protected void loadImpl() throws IOException {
+        try (Reader reader = new FileReader(getFile(), StandardCharsets.UTF_8)) {
+            set(gson.fromJson(reader, type));
         }
     }
 

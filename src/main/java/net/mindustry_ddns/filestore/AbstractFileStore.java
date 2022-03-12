@@ -1,7 +1,8 @@
 package net.mindustry_ddns.filestore;
 
-import java.io.*;
-import java.util.function.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.function.Supplier;
 
 
 /**
@@ -10,12 +11,46 @@ import java.util.function.*;
  * @param <T> the stored object type
  */
 public abstract class AbstractFileStore<T> implements FileStore<T> {
+
     private File file;
     private T object;
 
     protected AbstractFileStore(File file, Supplier<T> supplier) {
         this.file = file;
         this.object = supplier.get();
+    }
+
+    protected AbstractFileStore(String path, Supplier<T> supplier) {
+        this(new File(path), supplier);
+    }
+
+    protected abstract void saveImpl() throws IOException;
+
+    protected abstract void loadImpl() throws IOException;
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @Override
+    public void save() {
+        getFile().getAbsoluteFile().getParentFile().mkdirs();
+
+        try {
+            saveImpl();
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to save the file store at " + getFile(), e);
+        }
+    }
+
+    @Override
+    public void load() {
+        if (!getFile().exists()) {
+            save();
+        } else {
+            try {
+                loadImpl();
+            } catch (IOException e) {
+                throw new RuntimeException("Unable to load the file store at " + getFile(), e);
+            }
+        }
     }
 
     @Override

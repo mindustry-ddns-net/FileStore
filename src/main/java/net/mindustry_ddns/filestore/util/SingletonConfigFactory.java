@@ -1,15 +1,20 @@
 package net.mindustry_ddns.filestore.util;
 
-import org.aeonbits.owner.*;
-import org.aeonbits.owner.loaders.*;
+import org.aeonbits.owner.Config;
+import org.aeonbits.owner.ConfigFactory;
+import org.aeonbits.owner.Converter;
+import org.aeonbits.owner.Factory;
+import org.aeonbits.owner.loaders.Loader;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Properties;
 
 
 /**
  * A {@link Factory} view of {@link ConfigFactory}.
  */
 public final class SingletonConfigFactory implements Factory {
+
     private static final SingletonConfigFactory INSTANCE = new SingletonConfigFactory();
 
     public static SingletonConfigFactory getInstance() {

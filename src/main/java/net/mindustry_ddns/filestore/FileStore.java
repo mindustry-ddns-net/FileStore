@@ -1,6 +1,6 @@
 package net.mindustry_ddns.filestore;
 
-import java.io.*;
+import java.io.File;
 
 
 /**
@@ -9,6 +9,7 @@ import java.io.*;
  * @param <T> the stored object type
  */
 public interface FileStore<T> {
+
     /**
      * @return the stored object
      */

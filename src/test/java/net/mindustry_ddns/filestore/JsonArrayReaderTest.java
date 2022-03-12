@@ -1,30 +1,35 @@
 package net.mindustry_ddns.filestore;
 
-import net.mindustry_ddns.filestore.util.*;
-import org.junit.jupiter.api.*;
+import net.mindustry_ddns.filestore.util.JsonArrayReader;
+import org.junit.jupiter.api.Test;
 
-import java.io.*;
-import java.nio.charset.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonArrayReaderTest {
+
     private static final int[] EMPTY_ARRAY = {};
     private static final int[] TEST_ARRAY = {1, 2, 3, 4};
 
     @Test
-    public void test_normal_array() throws IOException {
+    void test_normal_array() throws IOException {
         test_json_array_reader("int-array.json", TEST_ARRAY);
     }
 
     @Test
-    public void test_empty_array() throws IOException {
+    void test_empty_array() throws IOException {
         test_json_array_reader("empty-array.json", EMPTY_ARRAY);
     }
 
     @SuppressWarnings("ConstantConditions")
-    public void test_json_array_reader(String fileName, int[] expectedArray) throws IOException {
+    void test_json_array_reader(String fileName, int[] expectedArray) throws IOException {
         try (InputStream stream = getClass().getClassLoader().getResourceAsStream(fileName);
              Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
             Iterator<Integer> iterator = new JsonArrayReader<>(reader, Integer.TYPE);

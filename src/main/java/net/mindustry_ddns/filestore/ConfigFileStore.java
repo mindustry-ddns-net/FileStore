@@ -1,11 +1,15 @@
 package net.mindustry_ddns.filestore;
 
-import net.mindustry_ddns.filestore.util.*;
-import org.aeonbits.owner.*;
+import net.mindustry_ddns.filestore.util.SingletonConfigFactory;
+import org.aeonbits.owner.Accessible;
+import org.aeonbits.owner.Config;
+import org.aeonbits.owner.ConfigFactory;
+import org.aeonbits.owner.Factory;
 
 import java.io.*;
-import java.nio.charset.*;
-import java.util.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Properties;
 
 
 /**
@@ -22,6 +26,7 @@ import java.util.*;
  * @param <T> the stored config type
  */
 public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> {
+
     private final Factory factory;
     private final Class<T> clazz;
 
@@ -34,7 +39,7 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
      * @param imports imported properties for the initial value of the file store
      */
     public ConfigFileStore(String path, Class<T> clazz, Factory factory, Map<?, ?>... imports) {
-        super(new File(path), () -> factory.create(clazz, imports));
+        super(path, () -> factory.create(clazz, imports));
         this.factory = factory;
         this.clazz = clazz;
     }
@@ -71,31 +76,20 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
     }
 
     @Override
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void save() {
-        getFile().getAbsoluteFile().getParentFile().mkdirs();
-
-        try (final Writer writer = new FileWriter(getFile(), StandardCharsets.UTF_8)) {
+    protected void saveImpl() throws IOException {
+        try (Writer writer = new FileWriter(getFile(), StandardCharsets.UTF_8)) {
             Properties properties = new Properties();
             get().fill(properties);
             properties.store(writer, null);
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to save the config at " + getFile(), e);
         }
     }
 
     @Override
-    public void load() {
-        if (!getFile().exists()) {
-            save();
-        } else {
-            try (final Reader reader = new FileReader(getFile(), StandardCharsets.UTF_8)) {
-                Properties properties = new Properties();
-                properties.load(reader);
-                set(factory.create(clazz, properties));
-            } catch (IOException e) {
-                throw new RuntimeException("Unable to load the config at " + getFile(), e);
-            }
+    public void loadImpl() throws IOException {
+        try (Reader reader = new FileReader(getFile(), StandardCharsets.UTF_8)) {
+            Properties properties = new Properties();
+            properties.load(reader);
+            set(factory.create(clazz, properties));
         }
     }
 

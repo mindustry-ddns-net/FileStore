@@ -1,4 +1,4 @@
-package net.mindustry_ddns.filestore.util;
+package net.mindustry_ddns.store.util;
 
 public class TestObject {
     private int luckyNumber = 7;

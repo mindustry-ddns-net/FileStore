@@ -1,6 +1,7 @@
-package net.mindustry_ddns.filestore;
+package net.mindustry_ddns.store;
 
 import java.io.*;
+
 
 /**
  * A {@code FileStore} provides easier management of io operations with objects.
@@ -8,7 +9,6 @@ import java.io.*;
  * @param <T> the stored object type
  */
 public interface FileStore<T> {
-
     /**
      * @return the stored object
      */

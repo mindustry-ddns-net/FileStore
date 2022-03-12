@@ -1,10 +1,12 @@
-package net.mindustry_ddns.filestore;
+package net.mindustry_ddns.store;
 
 import com.google.gson.*;
+
 import java.io.*;
 import java.lang.reflect.*;
 import java.nio.charset.*;
 import java.util.function.*;
+
 
 /**
  * A json based store backed by Gson.
@@ -20,7 +22,6 @@ import java.util.function.*;
  * @param <T> the stored object type
  */
 public class JsonFileStore<T> extends AbstractFileStore<T> {
-
     private final Type type;
     private final Gson gson;
 
@@ -33,7 +34,6 @@ public class JsonFileStore<T> extends AbstractFileStore<T> {
      * @param gson     the gson instance
      */
     public JsonFileStore(String path, Type type, Supplier<T> supplier, Gson gson) {
-
         super(new File(path), supplier);
         this.type = type;
         this.gson = gson;
@@ -54,7 +54,6 @@ public class JsonFileStore<T> extends AbstractFileStore<T> {
      * @see JsonFileStore#JsonFileStore(String, Type, Supplier, Gson)
      */
     public static <T> JsonFileStore<T> load(String path, Type type, Supplier<T> supplier, Gson gson) {
-
         JsonFileStore<T> store = new JsonFileStore<>(path, type, supplier, gson);
         store.load();
         return store;
@@ -66,7 +65,6 @@ public class JsonFileStore<T> extends AbstractFileStore<T> {
      * @see JsonFileStore#JsonFileStore(String, Type, Supplier)
      */
     public static <T> JsonFileStore<T> load(String path, Type type, Supplier<T> supplier) {
-
         JsonFileStore<T> store = new JsonFileStore<>(path, type, supplier);
         store.load();
         return store;
@@ -86,16 +84,14 @@ public class JsonFileStore<T> extends AbstractFileStore<T> {
 
     @Override
     public void load() {
-
         if (!getFile().exists()) {
             save();
-            return;
-        }
-
-        try (final Reader reader = new FileReader(getFile(), StandardCharsets.UTF_8)) {
-            set(gson.fromJson(reader, type));
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to load the object at " + getFile(), e);
+        } else {
+            try (final Reader reader = new FileReader(getFile(), StandardCharsets.UTF_8)) {
+                set(gson.fromJson(reader, type));
+            } catch (IOException e) {
+                throw new RuntimeException("Unable to load the object at " + getFile(), e);
+            }
         }
     }
 

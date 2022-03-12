@@ -1,20 +1,21 @@
-package net.mindustry_ddns.filestore.util;
+package net.mindustry_ddns.store.util;
 
 import com.google.gson.*;
 import com.google.gson.stream.*;
-import net.mindustry_ddns.filestore.*;
+import net.mindustry_ddns.store.*;
+
 import java.io.*;
 import java.lang.reflect.*;
 import java.nio.charset.*;
 import java.util.*;
+
 
 /**
  * An iterator backed by a {@link JsonReader} to read the elements of a json array.
  *
  * @param <E> the element type
  */
-public class JsonArrayReader<E> implements Iterator<E>, Closeable {
-
+public class JsonArrayReader<E> implements Iterator<E>, Closeable{
     private final JsonReader reader;
     private final Type type;
     private final Gson gson;
@@ -28,7 +29,6 @@ public class JsonArrayReader<E> implements Iterator<E>, Closeable {
      * @param gson   the gson instance
      */
     public JsonArrayReader(Reader reader, Type type, Gson gson) {
-
         try {
             this.reader = new JsonReader(reader);
             this.type = type;
@@ -54,9 +54,7 @@ public class JsonArrayReader<E> implements Iterator<E>, Closeable {
      * @param gson   the gson instance
      */
     public JsonArrayReader(String path, Type type, Gson gson) {
-
         try (Reader reader = new FileReader(path, StandardCharsets.UTF_8)) {
-
             this.reader = new JsonReader(reader);
             this.type = type;
             this.gson = gson;
@@ -88,15 +86,15 @@ public class JsonArrayReader<E> implements Iterator<E>, Closeable {
      */
     @Override
     public boolean hasNext() {
-
         try {
-
-            if (!closed && reader.hasNext()) return true;
-
-            if (!closed) reader.close();
-            closed = true;
-            return false;
-
+            if (!closed && reader.hasNext()) {
+                return true;
+            } else {
+                if (!closed)
+                    reader.close();
+                closed = true;
+                return false;
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -110,9 +108,11 @@ public class JsonArrayReader<E> implements Iterator<E>, Closeable {
      */
     @Override
     public E next() {
-
-        if (!closed) return gson.fromJson(reader, type);
-        throw new NoSuchElementException("No more elements to read.");
+        if (!closed) {
+            return gson.fromJson(reader, type);
+        } else {
+            throw new NoSuchElementException("No more elements to read.");
+        }
     }
 
     @Override

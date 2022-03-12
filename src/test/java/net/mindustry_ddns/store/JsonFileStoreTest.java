@@ -1,6 +1,6 @@
-package net.mindustry_ddns.filestore;
+package net.mindustry_ddns.store;
 
-import net.mindustry_ddns.filestore.util.*;
+import net.mindustry_ddns.store.util.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.*;
 

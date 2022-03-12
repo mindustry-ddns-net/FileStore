@@ -1,5 +1,7 @@
 # FileStore
 
+[![Xpdustry latest](https://repo.xpdustry.fr/api/badge/latest/releases/net/mindustry_ddns/file-store?color=00FFFF&name=FileStore&prefix=v)](https://github.com/mindustry-ddns-net/FileStore/releases)
+
 ## Description
 
 File management library.

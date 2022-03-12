@@ -1,8 +1,8 @@
-package net.mindustry_ddns.store.util;
+package net.mindustry_ddns.filestore.util;
 
 import com.google.gson.*;
 import com.google.gson.stream.*;
-import net.mindustry_ddns.store.*;
+import net.mindustry_ddns.filestore.*;
 
 import java.io.*;
 import java.lang.reflect.*;

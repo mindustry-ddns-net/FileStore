@@ -1,4 +1,4 @@
-package net.mindustry_ddns.store.util;
+package net.mindustry_ddns.filestore.util;
 
 import org.aeonbits.owner.*;
 import org.aeonbits.owner.loaders.*;

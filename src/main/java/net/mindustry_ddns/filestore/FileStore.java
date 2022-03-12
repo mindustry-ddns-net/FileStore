@@ -1,4 +1,4 @@
-package net.mindustry_ddns.store;
+package net.mindustry_ddns.filestore;
 
 import java.io.*;
 

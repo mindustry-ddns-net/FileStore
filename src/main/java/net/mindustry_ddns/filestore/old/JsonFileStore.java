@@ -1,4 +1,4 @@
-package net.mindustry_ddns.filestore;
+package net.mindustry_ddns.filestore.old;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -98,6 +98,7 @@ public class JsonFileStore<T> extends AbstractFileStore<T> {
     /**
      * @return the type of the stored object
      */
+    @Override
     public Type getType() {
         return type;
     }

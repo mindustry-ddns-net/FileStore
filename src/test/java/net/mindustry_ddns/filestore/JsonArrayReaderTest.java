@@ -1,6 +1,6 @@
 package net.mindustry_ddns.filestore;
 
-import net.mindustry_ddns.filestore.util.JsonArrayReader;
+import net.mindustry_ddns.filestore.old.JsonArrayReader;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

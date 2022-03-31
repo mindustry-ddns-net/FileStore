@@ -1,6 +1,7 @@
-package net.mindustry_ddns.filestore;
+package net.mindustry_ddns.filestore.old;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
@@ -45,5 +46,10 @@ public class PropertiesFileStore extends AbstractFileStore<Properties> {
             get().clear();
             get().load(reader);
         }
+    }
+
+    @Override
+    public Type getType() {
+        return Properties.class;
     }
 }

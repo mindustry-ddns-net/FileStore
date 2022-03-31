@@ -1,4 +1,6 @@
-package net.mindustry_ddns.filestore;
+package net.mindustry_ddns.filestore.old;
+
+import net.mindustry_ddns.filestore.FileStore;
 
 import java.io.File;
 import java.io.IOException;

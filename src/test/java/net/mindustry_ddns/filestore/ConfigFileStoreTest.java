@@ -1,5 +1,6 @@
 package net.mindustry_ddns.filestore;
 
+import net.mindustry_ddns.filestore.old.ConfigFileStore;
 import net.mindustry_ddns.filestore.util.TestConfig;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.BeforeEach;

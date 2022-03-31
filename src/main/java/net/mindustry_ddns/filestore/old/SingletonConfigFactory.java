@@ -1,4 +1,4 @@
-package net.mindustry_ddns.filestore.util;
+package net.mindustry_ddns.filestore.old;
 
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.ConfigFactory;
@@ -19,6 +19,10 @@ public final class SingletonConfigFactory implements Factory {
 
     public static SingletonConfigFactory getInstance() {
         return INSTANCE;
+    }
+
+    private SingletonConfigFactory() {
+
     }
 
     @Override

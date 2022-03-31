@@ -1,8 +1,7 @@
-package net.mindustry_ddns.filestore.util;
+package net.mindustry_ddns.filestore.old;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import net.mindustry_ddns.filestore.JsonFileStore;
 
 import java.io.Closeable;
 import java.io.FileReader;

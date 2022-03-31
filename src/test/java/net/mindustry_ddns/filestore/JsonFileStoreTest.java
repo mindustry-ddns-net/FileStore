@@ -1,5 +1,6 @@
 package net.mindustry_ddns.filestore;
 
+import net.mindustry_ddns.filestore.old.JsonFileStore;
 import net.mindustry_ddns.filestore.util.TestObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

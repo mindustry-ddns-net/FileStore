@@ -1,12 +1,12 @@
-package net.mindustry_ddns.filestore;
+package net.mindustry_ddns.filestore.old;
 
-import net.mindustry_ddns.filestore.util.SingletonConfigFactory;
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.ConfigFactory;
 import org.aeonbits.owner.Factory;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
@@ -100,10 +100,8 @@ public class ConfigFileStore<T extends Accessible> extends AbstractFileStore<T> 
         return factory;
     }
 
-    /**
-     * @return the class of the stored config
-     */
-    public Class<T> getConfigClass() {
+    @Override
+    public Type getType() {
         return clazz;
     }
 }

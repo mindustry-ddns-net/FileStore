@@ -1,6 +1,9 @@
 package net.mindustry_ddns.filestore;
 
+import net.mindustry_ddns.filestore.serial.StoreSerializer;
+
 import java.io.File;
+import java.lang.reflect.Type;
 
 
 /**
@@ -8,19 +11,15 @@ import java.io.File;
  *
  * @param <T> the stored object type
  */
-public interface FileStore<T> {
+public interface FileStore<T> extends Store<T> {
 
-    /**
-     * @return the stored object
-     */
-    T get();
+    static <T> FileStore<T> of(String path, StoreSerializer<T> serializer, Type type, T object) {
+        return new SimpleFileStore<>(path, serializer, type, object);
+    }
 
-    /**
-     * Set the stored object.
-     *
-     * @param object the object to store
-     */
-    void set(T object);
+    static <T> FileStore<T> of(String path, StoreSerializer<T> serializer, Type type) {
+        return new SimpleFileStore<>(path, serializer, type, null);
+    }
 
     /**
      * @return the file where the object is stored
@@ -33,16 +32,4 @@ public interface FileStore<T> {
      * @param path the path of the file
      */
     void setFile(String path);
-
-    /**
-     * Save the stored object to the file.
-     * The parent directories are created if needed.
-     */
-    void save();
-
-    /**
-     * Load the stored object from the file.
-     * If the file doesn't exist, it is created, with its parent directories if needed.
-     */
-    void load();
 }

@@ -7,7 +7,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;
 
-public class JacksonSerializer<T> implements StoreSerializer<T> {
+public class JacksonSerializer<T> implements Serializer<T> {
 
     private final ObjectMapper mapper;
 
@@ -16,12 +16,12 @@ public class JacksonSerializer<T> implements StoreSerializer<T> {
     }
 
     @Override
-    public T read(Reader reader, Type type) throws IOException {
+    public T deserialize(Reader reader, Type type) throws IOException {
         return mapper.readValue(reader, mapper.getTypeFactory().constructType(type));
     }
 
     @Override
-    public void write(Writer writer, T object) throws IOException {
+    public void serialize(Writer writer, T object) throws IOException {
         mapper.writeValue(writer, object);
     }
 }

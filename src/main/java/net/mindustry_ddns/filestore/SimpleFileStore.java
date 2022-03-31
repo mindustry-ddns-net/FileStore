@@ -1,7 +1,7 @@
 package net.mindustry_ddns.filestore;
 
-import net.mindustry_ddns.filestore.serial.StoreSerializer;
-
+import net.mindustry_ddns.filestore.exception.SyntaxException;
+import net.mindustry_ddns.filestore.serial.Serializer;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
@@ -9,11 +9,11 @@ import java.nio.charset.StandardCharsets;
 final class SimpleFileStore<T> implements FileStore<T> {
 
     private File file;
-    private final StoreSerializer<T> serializer;
+    private final Serializer<T> serializer;
     private final Type type;
     private T object;
 
-    SimpleFileStore(String path, StoreSerializer<T> serializer, Type type, T object) {
+    SimpleFileStore(String path, Serializer<T> serializer, Type type, T object) {
         this.file = new File(path);
         this.serializer = serializer;
         this.type = type;
@@ -46,7 +46,7 @@ final class SimpleFileStore<T> implements FileStore<T> {
         getFile().getAbsoluteFile().getParentFile().mkdirs();
 
         try (Writer writer = new FileWriter(file, StandardCharsets.UTF_8)) {
-            serializer.write(writer, object);
+            serializer.serialize(writer, object);
         } catch (IOException e) {
             throw new RuntimeException("Unable to save the file store at " + getFile(), e);
         }
@@ -58,8 +58,8 @@ final class SimpleFileStore<T> implements FileStore<T> {
             save();
         } else {
             try (Reader reader = new FileReader(file, StandardCharsets.UTF_8)){
-                object = serializer.read(reader, type);
-            } catch (IOException e) {
+                object = serializer.deserialize(reader, type);
+            } catch (IOException | SyntaxException e) {
                 throw new RuntimeException("Unable to load the file store at " + getFile(), e);
             }
         }

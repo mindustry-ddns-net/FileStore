@@ -1,6 +1,6 @@
 package net.mindustry_ddns.filestore;
 
-import net.mindustry_ddns.filestore.serial.StoreSerializer;
+import net.mindustry_ddns.filestore.serial.Serializer;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -13,11 +13,11 @@ import java.lang.reflect.Type;
  */
 public interface FileStore<T> extends Store<T> {
 
-    static <T> FileStore<T> of(String path, StoreSerializer<T> serializer, Type type, T object) {
+    static <T> FileStore<T> of(String path, Serializer<T> serializer, Type type, T object) {
         return new SimpleFileStore<>(path, serializer, type, object);
     }
 
-    static <T> FileStore<T> of(String path, StoreSerializer<T> serializer, Type type) {
+    static <T> FileStore<T> of(String path, Serializer<T> serializer, Type type) {
         return new SimpleFileStore<>(path, serializer, type, null);
     }
 

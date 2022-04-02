@@ -13,10 +13,31 @@ import java.lang.reflect.Type;
  */
 public interface FileStore<T> extends Store<T> {
 
+    /**
+     * Creates a new {@code FileStore}.
+     *
+     * @param path       the path of the file
+     * @param serializer the serializer instance
+     * @param type       the type of the stored object
+     * @param object     the initial value of the store
+     * @param <T>        the stored object type
+     * @return a new simple {@code FileStore}
+     */
     static <T> FileStore<T> of(String path, Serializer<T> serializer, Type type, T object) {
         return new SimpleFileStore<>(path, serializer, type, object);
     }
 
+    /**
+     * Creates a new {@code FileStore}.
+     * <p>
+     * <strong>Attention</strong>, the initial value is null..
+     *
+     * @param path       the path of the file
+     * @param serializer the serializer instance
+     * @param type       the type of the stored object
+     * @param <T>        the stored object type
+     * @return a new simple {@code FileStore}
+     */
     static <T> FileStore<T> of(String path, Serializer<T> serializer, Type type) {
         return new SimpleFileStore<>(path, serializer, type, null);
     }

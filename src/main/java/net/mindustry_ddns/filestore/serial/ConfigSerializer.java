@@ -3,8 +3,8 @@ package net.mindustry_ddns.filestore.serial;
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.ConfigFactory;
 import org.aeonbits.owner.Factory;
+
 import java.io.IOException;
-import java.io.InvalidClassException;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;

@@ -1,6 +1,7 @@
 package net.mindustry_ddns.filestore;
 
 import net.mindustry_ddns.filestore.serial.Serializer;
+
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
@@ -57,7 +58,7 @@ final class SimpleFileStore<T> implements FileStore<T> {
         if (!getFile().exists()) {
             save();
         } else {
-            try (Reader reader = new FileReader(file, StandardCharsets.UTF_8)){
+            try (Reader reader = new FileReader(file, StandardCharsets.UTF_8)) {
                 object = serializer.deserialize(reader, type);
             } catch (IOException e) {
                 throw new RuntimeException("Unable to load the file store at " + getFile(), e);

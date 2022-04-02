@@ -15,8 +15,8 @@ public class ConfigSerializerTest {
 
     static final Type TEST_CONFIG_TYPE = TestConfig.class;
     static final String TEST_CONFIG_PROPERTIES_STRING = """
-        test.number = 3
-        """;
+            test.number = 3
+            """;
 
     @Test
     void test_serialization() throws IOException {

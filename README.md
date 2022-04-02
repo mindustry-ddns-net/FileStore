@@ -38,6 +38,9 @@ Here are the default formats provided by the library (make sure the implementati
 
   - [Java](https://docs.oracle.com/javase/7/docs/api/java/util/Properties.html) (`Serializers.properties()`).
 
+- Other formats :
+
+  - Jackson : You can use one of the bindings like [xml](https://github.com/FasterXML/jackson-dataformat-xml) by passing the mapper with `Serializers.jackson(ObjectMapper)`.
 
 ### Examples
 

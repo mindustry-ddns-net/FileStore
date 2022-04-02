@@ -1,11 +1,17 @@
 package net.mindustry_ddns.filestore;
 
 import java.lang.reflect.Type;
+import net.mindustry_ddns.filestore.serial.*;
 
+/**
+ * A {@code Store} is a simple utility class that can load, store and save an object, making persistence very easy to handle.
+ *
+ * @param <T> the type of the store object
+ */
 public interface Store<T> {
 
     /**
-     * @return the stored object
+     * Returns the stored object.
      */
     T get();
 
@@ -17,16 +23,22 @@ public interface Store<T> {
     void set(T object);
 
     /**
-     * Save the stored object to the file.
-     * The parent directories are created if needed.
+     * Saves the stored object.
      */
     void save();
 
     /**
-     * Load the stored object from the file.
-     * If the file doesn't exist, it is created, with its parent directories if needed.
+     * Loads the stored object.
      */
     void load();
 
+    /**
+     * Returns the type of the stored object.
+     */
     Type getType();
+
+    /**
+     * Returns the serializer of the store.
+     */
+    Serializer<T> getSerializer();
 }

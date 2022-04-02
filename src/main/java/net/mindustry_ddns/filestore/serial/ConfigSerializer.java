@@ -4,6 +4,7 @@ import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.ConfigFactory;
 import org.aeonbits.owner.Factory;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;
@@ -12,23 +13,27 @@ import java.util.Properties;
 final class ConfigSerializer<T extends Accessible> implements Serializer<T> {
 
     private final Factory factory;
-    private final Class<T> type;
 
-    public ConfigSerializer(Class<T> type, Factory factory) {
-        this.type = type;
+    public ConfigSerializer(Factory factory) {
         this.factory = factory;
     }
 
-    public ConfigSerializer(Class<T> type) {
-        this(type, null);
+    public ConfigSerializer() {
+        this(null);
     }
 
-    // Type is null
+    @SuppressWarnings("unchecked")
+    @Override
     public T deserialize(Reader reader, Type type) throws IOException {
-
-        Properties properties = new Properties();
-        properties.load(reader);
-        return factory == null ? ConfigFactory.create(this.type, properties) : factory.create(this.type, properties);
+        if (type instanceof Class<?> clazz) {
+            Properties properties = new Properties();
+            properties.load(reader);
+            return factory == null
+                    ? ConfigFactory.create((Class<T>) clazz, properties)
+                    : factory.create((Class<T>) clazz, properties);
+        } else {
+            throw new IOException("The type is invalid, it should be a 'Class', not " + type.getClass() + ".");
+        }
     }
 
     @Override

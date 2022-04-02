@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 
 
 /**
- * A {@code FileStore} provides easier management of io operations with objects.
+ * A {@code FileStore} is a {@code Store} that stores an object on a file.
  *
  * @param <T> the stored object type
  */
@@ -22,7 +22,7 @@ public interface FileStore<T> extends Store<T> {
     }
 
     /**
-     * @return the file where the object is stored
+     * Returns the file where the object is stored.
      */
     File getFile();
 

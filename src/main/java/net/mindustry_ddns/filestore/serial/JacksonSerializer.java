@@ -7,7 +7,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;
 
-public class JacksonSerializer<T> implements Serializer<T> {
+final class JacksonSerializer<T> implements Serializer<T> {
 
     private final ObjectMapper mapper;
 

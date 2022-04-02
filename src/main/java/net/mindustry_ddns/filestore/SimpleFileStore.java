@@ -1,6 +1,5 @@
 package net.mindustry_ddns.filestore;
 
-import net.mindustry_ddns.filestore.exception.SyntaxException;
 import net.mindustry_ddns.filestore.serial.Serializer;
 import java.io.*;
 import java.lang.reflect.Type;
@@ -43,6 +42,7 @@ final class SimpleFileStore<T> implements FileStore<T> {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void save() {
+        // Creates parent directories
         getFile().getAbsoluteFile().getParentFile().mkdirs();
 
         try (Writer writer = new FileWriter(file, StandardCharsets.UTF_8)) {
@@ -59,7 +59,7 @@ final class SimpleFileStore<T> implements FileStore<T> {
         } else {
             try (Reader reader = new FileReader(file, StandardCharsets.UTF_8)){
                 object = serializer.deserialize(reader, type);
-            } catch (IOException | SyntaxException e) {
+            } catch (IOException e) {
                 throw new RuntimeException("Unable to load the file store at " + getFile(), e);
             }
         }
@@ -68,5 +68,10 @@ final class SimpleFileStore<T> implements FileStore<T> {
     @Override
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public Serializer<T> getSerializer() {
+        return serializer;
     }
 }

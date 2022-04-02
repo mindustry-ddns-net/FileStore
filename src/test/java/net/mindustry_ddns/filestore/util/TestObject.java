@@ -1,14 +1,14 @@
 package net.mindustry_ddns.filestore.util;
 
-public class TestObject {
+public class TestObject<N extends Number> {
 
-    private int luckyNumber = 7;
+    private N number;
 
-    public int getLuckyNumber() {
-        return luckyNumber;
+    public N getNumber() {
+        return number;
     }
 
-    public void setLuckyNumber(int luckyNumber) {
-        this.luckyNumber = luckyNumber;
+    public void setNumber(N number) {
+        this.number = number;
     }
 }

@@ -83,13 +83,13 @@ Then you can freely call the `load()` and `save()` methods whenever you mutate t
 
 - If you want to use generics with a `Serializer`, use a `TypeToken` class since it can extract the generic type. There are several implementations like the one provided by Gson (`TypeToken`) or Jackson (`JavaType`). But I recommend using the [geantyref](https://github.com/leangen/geantyref) `TypeToken` since it's platform independent. Here is an example using it :
 
-```java
-Type type = new TypeToken<List<Integer>>(){}.getType();
-FileStore<List<Integer>> store = FileStore.of("./int-list.json", Serializers.jackson(), type);
-```
-
-As you can see, I don't use the raw `List.class` for the `type`.
-
-> Not doing this may result in `ClassCastException` exceptions and other funny bugs.
+  ```java
+  Type type = new TypeToken<List<Integer>>(){}.getType();
+  FileStore<List<Integer>> store = FileStore.of("./int-list.json", Serializers.jackson(), type);
+  ```
+  
+  As you can see, I don't use the raw `List.class` for the `type`.
+  
+  > Not doing this may result in `ClassCastException` exceptions and other funny bugs.
 
 - Generics aren't supported by Owner since it needs a raw `Class` for the type (for the `Config` object creation).

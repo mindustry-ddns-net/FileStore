@@ -1,9 +1,10 @@
 package net.mindustry_ddns.filestore.serial;
 
+import io.leangen.geantyref.TypeToken;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.lang.reflect.Type;
 import java.util.Properties;
 
 final class PropertiesSerializer implements Serializer<Properties> {
@@ -11,7 +12,7 @@ final class PropertiesSerializer implements Serializer<Properties> {
     static final PropertiesSerializer INSTANCE = new PropertiesSerializer();
 
     @Override
-    public Properties deserialize(Reader reader, Type type) throws IOException {
+    public Properties deserialize(Reader reader, TypeToken<Properties> token) throws IOException {
         final var properties = new Properties();
         properties.load(reader);
         return properties;

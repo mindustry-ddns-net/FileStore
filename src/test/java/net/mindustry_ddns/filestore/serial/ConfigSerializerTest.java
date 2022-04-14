@@ -1,5 +1,6 @@
 package net.mindustry_ddns.filestore.serial;
 
+import io.leangen.geantyref.TypeToken;
 import net.mindustry_ddns.filestore.util.TestConfig;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.Assertions;
@@ -9,11 +10,12 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
 
 public class ConfigSerializerTest {
 
-    static final Type TEST_CONFIG_TYPE = TestConfig.class;
+    static final TypeToken<TestConfig> TEST_CONFIG_TYPE = new TypeToken<>() {};
     static final String TEST_CONFIG_PROPERTIES_STRING = """
             test.number = 3
             """;

@@ -3,11 +3,10 @@ package net.mindustry_ddns.filestore.serial;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.google.gson.Gson;
-
-import java.util.*;
-
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.Factory;
+
+import java.util.Properties;
 
 /**
  * A list of the standard serializers.

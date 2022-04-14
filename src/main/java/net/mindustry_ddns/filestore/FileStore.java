@@ -1,9 +1,9 @@
 package net.mindustry_ddns.filestore;
 
+import io.leangen.geantyref.TypeToken;
 import net.mindustry_ddns.filestore.serial.Serializer;
 
 import java.io.File;
-import java.lang.reflect.Type;
 
 
 /**
@@ -16,30 +16,57 @@ public interface FileStore<T> extends Store<T> {
     /**
      * Creates a new {@code FileStore}.
      *
-     * @param path       the path of the file
+     * @param file       the file
      * @param serializer the serializer instance
-     * @param type       the type of the stored object
      * @param object     the initial value of the store
      * @param <T>        the stored object type
      * @return a new simple {@code FileStore}
      */
-    static <T> FileStore<T> of(String path, Serializer<T> serializer, Type type, T object) {
-        return new SimpleFileStore<>(path, serializer, type, object);
+    static <T> FileStore<T> of(File file, Serializer<T> serializer, T object) {
+        return new SimpleFileStore<>(file, serializer, new TypeToken<>() {
+        }, object);
+    }
+
+    /**
+     * Creates a new {@code FileStore}.
+     *
+     * @param path       the path of the file
+     * @param serializer the serializer instance
+     * @param object     the initial value of the store
+     * @param <T>        the stored object type
+     * @return a new simple {@code FileStore}
+     */
+    static <T> FileStore<T> of(String path, Serializer<T> serializer, T object) {
+        return of(new File(path), serializer, object);
     }
 
     /**
      * Creates a new {@code FileStore}.
      * <p>
-     * <strong>Attention</strong>, the initial value is null..
+     * <strong>Attention</strong>, the initial value is null.
      *
-     * @param path       the path of the file
+     * @param file       the file
      * @param serializer the serializer instance
-     * @param type       the type of the stored object
      * @param <T>        the stored object type
      * @return a new simple {@code FileStore}
      */
-    static <T> FileStore<T> of(String path, Serializer<T> serializer, Type type) {
-        return new SimpleFileStore<>(path, serializer, type, null);
+    static <T> FileStore<T> of(File file, Serializer<T> serializer) {
+        return of(file, serializer, null);
+    }
+
+
+    /**
+     * Creates a new {@code FileStore}.
+     * <p>
+     * <strong>Attention</strong>, the initial value is null.
+     *
+     * @param path       the path of the file
+     * @param serializer the serializer instance
+     * @param <T>        the stored object type
+     * @return a new simple {@code FileStore}
+     */
+    static <T> FileStore<T> of(String path, Serializer<T> serializer) {
+        return of(new File(path), serializer, null);
     }
 
     /**
@@ -50,7 +77,16 @@ public interface FileStore<T> extends Store<T> {
     /**
      * Set the file where the object is stored.
      *
+     * @param file the file
+     */
+    void setFile(File file);
+
+    /**
+     * Set the file where the object is stored.
+     *
      * @param path the path of the file
      */
-    void setFile(String path);
+    default void setFile(String path) {
+        setFile(new File(path));
+    }
 }

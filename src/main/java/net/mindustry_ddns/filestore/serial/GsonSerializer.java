@@ -1,11 +1,13 @@
 package net.mindustry_ddns.filestore.serial;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import io.leangen.geantyref.TypeToken;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.lang.reflect.*;
 
 final class GsonSerializer<T> implements Serializer<T> {
 
@@ -20,9 +22,9 @@ final class GsonSerializer<T> implements Serializer<T> {
     }
 
     @Override
-    public T deserialize(Reader reader, Type type) throws IOException {
+    public T deserialize(Reader reader, TypeToken<T> token) throws IOException {
         try {
-            return gson.fromJson(reader, type);
+            return gson.fromJson(reader, token.getType());
         } catch (JsonIOException | JsonSyntaxException e) {
             throw new IOException("An exception occurred while reading json.", e);
         }

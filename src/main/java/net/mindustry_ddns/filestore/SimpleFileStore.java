@@ -1,20 +1,20 @@
 package net.mindustry_ddns.filestore;
 
+import io.leangen.geantyref.TypeToken;
 import net.mindustry_ddns.filestore.serial.Serializer;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 final class SimpleFileStore<T> implements FileStore<T> {
 
-    private File file;
     private final Serializer<T> serializer;
-    private final Type type;
+    private final TypeToken<T> type;
+    private File file;
     private T object;
 
-    SimpleFileStore(String path, Serializer<T> serializer, Type type, T object) {
-        this.file = new File(path);
+    SimpleFileStore(File file, Serializer<T> serializer, TypeToken<T> type, T object) {
+        this.file = file;
         this.serializer = serializer;
         this.type = type;
         this.object = object;
@@ -26,8 +26,8 @@ final class SimpleFileStore<T> implements FileStore<T> {
     }
 
     @Override
-    public void setFile(String path) {
-        file = new File(path);
+    public void setFile(File file) {
+        this.file = file;
     }
 
     @Override
@@ -67,7 +67,7 @@ final class SimpleFileStore<T> implements FileStore<T> {
     }
 
     @Override
-    public Type getType() {
+    public TypeToken<T> getTypeToken() {
         return type;
     }
 

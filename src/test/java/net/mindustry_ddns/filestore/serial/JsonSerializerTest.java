@@ -12,8 +12,7 @@ import org.junit.jupiter.params.provider.*;
 
 public class JsonSerializerTest {
 
-    static final Type TEST_OBJECT_TYPE = new TypeToken<TestObject<Long>>() {
-    }.getType();
+    static final TypeToken<TestObject<Long>> TEST_OBJECT_TYPE = new TypeToken<>() {};
     static final String TEST_OBJECT_JSON_STRING = """
             {
                 "number": 3

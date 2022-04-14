@@ -1,11 +1,11 @@
 package net.mindustry_ddns.filestore.serial;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.leangen.geantyref.TypeToken;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.lang.reflect.Type;
 
 final class JacksonSerializer<T> implements Serializer<T> {
 
@@ -16,8 +16,8 @@ final class JacksonSerializer<T> implements Serializer<T> {
     }
 
     @Override
-    public T deserialize(Reader reader, Type type) throws IOException {
-        return mapper.readValue(reader, mapper.getTypeFactory().constructType(type));
+    public T deserialize(Reader reader, TypeToken<T> token) throws IOException {
+        return mapper.readValue(reader, mapper.getTypeFactory().constructType(token.getType()));
     }
 
     @Override

@@ -4,7 +4,6 @@ import io.leangen.geantyref.TypeToken;
 import net.mindustry_ddns.filestore.serial.Serializer;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 final class SimpleFileStore<T> implements FileStore<T> {
@@ -68,8 +67,8 @@ final class SimpleFileStore<T> implements FileStore<T> {
     }
 
     @Override
-    public Type getType() {
-        return token.getType();
+    public TypeToken<T> getTypeToken() {
+        return token;
     }
 
     @Override

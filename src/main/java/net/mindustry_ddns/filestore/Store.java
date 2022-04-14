@@ -1,8 +1,7 @@
 package net.mindustry_ddns.filestore;
 
+import io.leangen.geantyref.TypeToken;
 import net.mindustry_ddns.filestore.serial.Serializer;
-
-import java.lang.reflect.Type;
 
 /**
  * A {@code Store} is a simple utility class that can load, store and save an object, making persistence very easy to handle.
@@ -36,7 +35,7 @@ public interface Store<T> {
     /**
      * Returns the type of the stored object.
      */
-    Type getType();
+    TypeToken<T> getTypeToken();
 
     /**
      * Returns the serializer of the store.

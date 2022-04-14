@@ -11,6 +11,9 @@ final class PropertiesSerializer implements Serializer<Properties> {
 
     static final PropertiesSerializer INSTANCE = new PropertiesSerializer();
 
+    private PropertiesSerializer() {
+    }
+
     @Override
     public Properties deserialize(Reader reader, TypeToken<Properties> token) throws IOException {
         final var properties = new Properties();

@@ -1,6 +1,7 @@
 package net.mindustry_ddns.filestore.serial;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.leangen.geantyref.TypeToken;
 
 import java.io.IOException;
@@ -11,8 +12,12 @@ final class JacksonSerializer<T> implements Serializer<T> {
 
     private final ObjectMapper mapper;
 
-    public JacksonSerializer(ObjectMapper mapper) {
+    JacksonSerializer(ObjectMapper mapper) {
         this.mapper = mapper;
+    }
+
+    JacksonSerializer() {
+        this.mapper = new JsonMapper();
     }
 
     @Override

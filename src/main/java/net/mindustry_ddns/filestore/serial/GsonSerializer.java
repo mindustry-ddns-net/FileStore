@@ -13,11 +13,11 @@ final class GsonSerializer<T> implements Serializer<T> {
 
     private final Gson gson;
 
-    public GsonSerializer(Gson gson) {
+    GsonSerializer(Gson gson) {
         this.gson = gson;
     }
 
-    public GsonSerializer() {
+    GsonSerializer() {
         this(new Gson());
     }
 

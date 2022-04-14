@@ -14,12 +14,12 @@ final class ConfigSerializer<T extends Accessible> implements Serializer<T> {
 
     private final Factory factory;
 
-    public ConfigSerializer(Factory factory) {
+    ConfigSerializer(Factory factory) {
         this.factory = factory;
     }
 
-    public ConfigSerializer() {
-        this(null);
+    ConfigSerializer() {
+        this.factory = null;
     }
 
     @SuppressWarnings("unchecked")

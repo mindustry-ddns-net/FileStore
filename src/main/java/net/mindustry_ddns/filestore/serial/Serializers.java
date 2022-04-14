@@ -1,7 +1,6 @@
 package net.mindustry_ddns.filestore.serial;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.google.gson.Gson;
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.Factory;
@@ -53,7 +52,7 @@ public final class Serializers {
      * @return a json serializer backed by Jackson
      */
     public static <T> Serializer<T> jackson() {
-        return new JacksonSerializer<>(new JsonMapper());
+        return new JacksonSerializer<>();
     }
 
     /**

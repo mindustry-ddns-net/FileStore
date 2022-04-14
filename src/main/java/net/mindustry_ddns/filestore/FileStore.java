@@ -23,8 +23,7 @@ public interface FileStore<T> extends Store<T> {
      * @return a new simple {@code FileStore}
      */
     static <T> FileStore<T> of(File file, Serializer<T> serializer, T object) {
-        return new SimpleFileStore<>(file, serializer, new TypeToken<>() {
-        }, object);
+        return new SimpleFileStore<>(file, serializer, new TypeToken<>() {}, object);
     }
 
     /**

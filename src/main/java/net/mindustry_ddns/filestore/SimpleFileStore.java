@@ -9,14 +9,14 @@ import java.nio.charset.StandardCharsets;
 final class SimpleFileStore<T> implements FileStore<T> {
 
     private final Serializer<T> serializer;
-    private final TypeToken<T> type;
+    private final TypeToken<T> token;
     private File file;
     private T object;
 
-    SimpleFileStore(File file, Serializer<T> serializer, TypeToken<T> type, T object) {
+    SimpleFileStore(File file, Serializer<T> serializer, TypeToken<T> token, T object) {
         this.file = file;
         this.serializer = serializer;
-        this.type = type;
+        this.token = token;
         this.object = object;
     }
 
@@ -59,7 +59,7 @@ final class SimpleFileStore<T> implements FileStore<T> {
             save();
         } else {
             try (Reader reader = new FileReader(file, StandardCharsets.UTF_8)) {
-                object = serializer.deserialize(reader, type);
+                object = serializer.deserialize(reader, token);
             } catch (IOException e) {
                 throw new RuntimeException("Unable to load the file store at " + getFile(), e);
             }
@@ -68,7 +68,7 @@ final class SimpleFileStore<T> implements FileStore<T> {
 
     @Override
     public TypeToken<T> getTypeToken() {
-        return type;
+        return token;
     }
 
     @Override

@@ -2,7 +2,6 @@ package net.mindustry_ddns.filestore;
 
 import io.leangen.geantyref.TypeToken;
 import net.mindustry_ddns.filestore.serial.Serializer;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
@@ -28,6 +27,11 @@ final class SimpleFileStore<T> implements FileStore<T> {
     @Override
     public void setFile(File file) {
         this.file = file;
+    }
+
+    @Override
+    public boolean doesFileExist() {
+        return file.exists();
     }
 
     @Override

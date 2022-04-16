@@ -81,6 +81,11 @@ public interface FileStore<T> extends Store<T> {
     void setFile(File file);
 
     /**
+     * @return If the file exists.
+     */
+    boolean doesFileExist();
+
+    /**
      * Set the file where the object is stored.
      *
      * @param path the path of the file

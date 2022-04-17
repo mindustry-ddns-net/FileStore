@@ -77,13 +77,11 @@ public class PersonSettings {
 You'll just have to do :
 
 ```java
-FileStore<PersonSettings> store = FileStore.of("./person.json", Serializers.gson());
+FileStore<PersonSettings> store = FileStore.of("./person.json", Serializers.gson(), new TypeToken<>(){});
 ```
 
-Then you can freely call the `load()` and `save()` methods whenever you mutate the `PersonSettings` object stored in the store.
+Then you can freely call the `load()` or `save()` methods whenever you mutate the `PersonSettings` object stored in the store with `set()` or `get()`.
 
 ## Tips
 
-- The type is inferred for you thanks to `TypeToken<T>`.
-
-- Interfaces with generics aren't supported by Owner since it needs a raw `Class` as the type (for the `Config` object creation).
+- Interfaces with generic parameters aren't supported by the `config` (Owner) serializer.

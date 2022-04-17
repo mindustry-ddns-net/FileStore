@@ -16,7 +16,7 @@ public interface Store<T> {
     T get();
 
     /**
-     * Set the stored object.
+     * Sets the stored object.
      *
      * @param object the object to store
      */
@@ -29,11 +29,15 @@ public interface Store<T> {
 
     /**
      * Loads the stored object.
+     * <p>
+     * If the store doesn't exist, it is created and the stored object of the store is saved.
+     *
+     * @see #save()
      */
     void load();
 
     /**
-     * Returns the type of the stored object.
+     * Returns the type token of the stored object.
      */
     TypeToken<T> getTypeToken();
 
@@ -41,4 +45,9 @@ public interface Store<T> {
      * Returns the serializer of the store.
      */
     Serializer<T> getSerializer();
+
+    /**
+     * Returns whether the store exists or not.
+     */
+    boolean exists();
 }

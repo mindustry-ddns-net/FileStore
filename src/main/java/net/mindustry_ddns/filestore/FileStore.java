@@ -18,12 +18,13 @@ public interface FileStore<T> extends Store<T> {
      *
      * @param file       the file
      * @param serializer the serializer instance
+     * @param token      the type token of the stored object
      * @param object     the initial value of the store
      * @param <T>        the stored object type
      * @return a new simple {@code FileStore}
      */
-    static <T> FileStore<T> of(File file, Serializer<T> serializer, T object) {
-        return new SimpleFileStore<>(file, serializer, new TypeToken<>() {}, object);
+    static <T> FileStore<T> of(File file, Serializer<T> serializer, TypeToken<T> token, T object) {
+        return new SimpleFileStore<>(file, serializer, token, object);
     }
 
     /**
@@ -31,12 +32,13 @@ public interface FileStore<T> extends Store<T> {
      *
      * @param path       the path of the file
      * @param serializer the serializer instance
+     * @param token      the type token of the stored object
      * @param object     the initial value of the store
      * @param <T>        the stored object type
      * @return a new simple {@code FileStore}
      */
-    static <T> FileStore<T> of(String path, Serializer<T> serializer, T object) {
-        return of(new File(path), serializer, object);
+    static <T> FileStore<T> of(String path, Serializer<T> serializer, TypeToken<T> token, T object) {
+        return of(new File(path), serializer, token, object);
     }
 
     /**
@@ -46,13 +48,13 @@ public interface FileStore<T> extends Store<T> {
      *
      * @param file       the file
      * @param serializer the serializer instance
+     * @param token      the type token of the stored object
      * @param <T>        the stored object type
      * @return a new simple {@code FileStore}
      */
-    static <T> FileStore<T> of(File file, Serializer<T> serializer) {
-        return of(file, serializer, null);
+    static <T> FileStore<T> of(File file, Serializer<T> serializer, TypeToken<T> token) {
+        return of(file, serializer, token, null);
     }
-
 
     /**
      * Creates a new {@code FileStore}.
@@ -61,12 +63,21 @@ public interface FileStore<T> extends Store<T> {
      *
      * @param path       the path of the file
      * @param serializer the serializer instance
+     * @param token      the type token of the stored object
      * @param <T>        the stored object type
      * @return a new simple {@code FileStore}
      */
-    static <T> FileStore<T> of(String path, Serializer<T> serializer) {
-        return of(new File(path), serializer, null);
+    static <T> FileStore<T> of(String path, Serializer<T> serializer, TypeToken<T> token) {
+        return of(new File(path), serializer, token, null);
     }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * If the parent directories of the file don't exist, they are created.
+     */
+    @Override
+    void save();
 
     /**
      * Returns the file where the object is stored.
@@ -74,23 +85,23 @@ public interface FileStore<T> extends Store<T> {
     File getFile();
 
     /**
-     * Set the file where the object is stored.
+     * Sets the file where the object is stored.
      *
      * @param file the file
      */
     void setFile(File file);
 
     /**
-     * @return If the file exists.
-     */
-    boolean doesFileExist();
-
-    /**
-     * Set the file where the object is stored.
+     * Sets the file where the object is stored.
      *
      * @param path the path of the file
      */
     default void setFile(String path) {
         setFile(new File(path));
+    }
+
+    @Override
+    default boolean exists() {
+        return getFile().exists();
     }
 }

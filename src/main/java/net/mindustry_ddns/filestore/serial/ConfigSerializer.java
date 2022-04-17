@@ -32,9 +32,9 @@ final class ConfigSerializer<T extends Accessible> implements Serializer<T> {
                     ? ConfigFactory.create((Class<T>) clazz, properties)
                     : factory.create((Class<T>) clazz, properties);
         } else {
-            throw new IOException("The type is invalid, it should be a 'Class', not "
-                    + token.getType().getClass().getSimpleName()
-                    + ".");
+            throw new IOException("The type is invalid, it should be an interface with no generic parameters, not '"
+                    + token.getType().getClass().toString()
+                    + "'.");
         }
     }
 

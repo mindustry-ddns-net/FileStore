@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.mindustry_ddns:file-store:2.0.0")
+    implementation("net.mindustry_ddns:file-store:2.1.0")
 }
 ```
 

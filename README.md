@@ -77,6 +77,12 @@ public class PersonSettings {
 You'll just have to do :
 
 ```java
+import io.leangen.geantyref.TypeToken;
+import net.mindustry_ddns.filestore.FileStore;
+import net.mindustry_ddns.filestore.serial.Serializers;
+
+[...]
+
 FileStore<PersonSettings> store = FileStore.of("./person.json", Serializers.gson(), new TypeToken<>(){});
 ```
 

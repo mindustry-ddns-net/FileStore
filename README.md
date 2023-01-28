@@ -1,6 +1,6 @@
 # FileStore
 
-[![Xpdustry latest](https://repo.xpdustry.fr/api/badge/latest/releases/net/mindustry_ddns/file-store?color=00FFFF&name=FileStore&prefix=v)](https://github.com/mindustry-ddns-net/FileStore/releases)
+[![Xpdustry latest](https://maven.xpdustry.fr/api/badge/latest/legacy-releases/net/mindustry_ddns/file-store?color=00FFFF&name=FileStore&prefix=v)](https://github.com/mindustry-ddns-net/FileStore/releases)
 
 ## Description
 
@@ -10,7 +10,7 @@ To use in your project, add this in your `build.gradle` :
 
 ```gradle
 repositories {
-    maven { url = uri("https://repo.xpdustry.fr/releases") }
+    maven { url = uri("https://maven.xpdustry.fr/legacy-releases") }
 }
 
 dependencies {

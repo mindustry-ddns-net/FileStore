@@ -1,20 +1,20 @@
 # FileStore
 
-[![Xpdustry latest](https://repo.xpdustry.fr/api/badge/latest/releases/net/mindustry_ddns/file-store?color=00FFFF&name=FileStore&prefix=v)](https://github.com/mindustry-ddns-net/FileStore/releases)
+[![](https://jitpack.io/v/mindustry-ddns-net/FileStore.svg)](https://jitpack.io/#mindustry-ddns-net/FileStore)
 
 ## Description
 
-A very simple object persistence library.
+A straightforward object persistence library.
 
 To use in your project, add this in your `build.gradle` :
 
 ```gradle
 repositories {
-    maven { url = uri("https://repo.xpdustry.fr/releases") }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    implementation("net.mindustry_ddns:file-store:2.1.0")
+    implementation 'com.github.mindustry-ddns-net:FileStore:2.1.1'
 }
 ```
 
@@ -24,13 +24,13 @@ The library provides the `Store` and `FileStore` classes to load and save your o
 
 Here are the default formats provided by the library (make sure the implementations are available in the classpath) :
 
-- Json : Use this for your settings, the stuff that can change at runtime.
+- Json: Use this for your settings, the stuff that can change at runtime.
 
   - [Gson](https://github.com/google/gson) (`Serializers.gson()`).
 
   - [Jackson](https://github.com/FasterXML/jackson-databind) (`Serializers.jackson()`).
 
-- Properties : I recommend using this for configurations, stuff that don't change during runtime, generally used at the application startup.
+- Properties: I recommend using this for configurations, stuff that don't change during runtime, generally used at the application startup.
 
   - [Owner](https://github.com/matteobaccan/owner) (`Serializers.config()`).
   
@@ -40,7 +40,7 @@ Here are the default formats provided by the library (make sure the implementati
 
 - Other formats :
 
-  - Jackson : You can use one of the bindings like [xml](https://github.com/FasterXML/jackson-dataformat-xml) by passing the mapper with `Serializers.jackson(ObjectMapper)`.
+  - Jackson: You can use one of the bindings like [xml](https://github.com/FasterXML/jackson-dataformat-xml) by passing the mapper with `Serializers.jackson(ObjectMapper)`.
 
 ### Examples
 
@@ -82,6 +82,6 @@ FileStore<PersonSettings> store = FileStore.of("./person.json", Serializers.gson
 
 Then you can freely call the `load()` or `save()` methods whenever you mutate the `PersonSettings` object stored in the store with `set()` or `get()`.
 
-## Tips
+## Notes
 
 - Interfaces with generic parameters aren't supported by the `config` (Owner) serializer.

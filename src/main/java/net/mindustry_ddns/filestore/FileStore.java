@@ -2,9 +2,7 @@ package net.mindustry_ddns.filestore;
 
 import io.leangen.geantyref.TypeToken;
 import net.mindustry_ddns.filestore.serial.Serializer;
-
 import java.io.File;
-
 
 /**
  * A {@code FileStore} is a {@code Store} that stores an object on a file.

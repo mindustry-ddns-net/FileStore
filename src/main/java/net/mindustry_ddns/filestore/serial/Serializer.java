@@ -1,7 +1,6 @@
 package net.mindustry_ddns.filestore.serial;
 
 import io.leangen.geantyref.TypeToken;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;

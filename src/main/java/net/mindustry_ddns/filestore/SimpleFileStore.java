@@ -2,7 +2,6 @@ package net.mindustry_ddns.filestore;
 
 import io.leangen.geantyref.TypeToken;
 import net.mindustry_ddns.filestore.serial.Serializer;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
@@ -46,7 +45,7 @@ final class SimpleFileStore<T> implements FileStore<T> {
         // Creates parent directories
         getFile().getAbsoluteFile().getParentFile().mkdirs();
 
-        try (Writer writer = new FileWriter(file, StandardCharsets.UTF_8)) {
+        try (Writer writer = new FileWriter(file, StandardCharsets.UTF_16)) {
             serializer.serialize(writer, object);
         } catch (IOException e) {
             throw new RuntimeException("Unable to save the file store at " + getFile(), e);
@@ -58,7 +57,7 @@ final class SimpleFileStore<T> implements FileStore<T> {
         if (!getFile().exists()) {
             save();
         } else {
-            try (Reader reader = new FileReader(file, StandardCharsets.UTF_8)) {
+            try (Reader reader = new FileReader(file, StandardCharsets.UTF_16)) {
                 object = serializer.deserialize(reader, token);
             } catch (IOException e) {
                 throw new RuntimeException("Unable to load the file store at " + getFile(), e);

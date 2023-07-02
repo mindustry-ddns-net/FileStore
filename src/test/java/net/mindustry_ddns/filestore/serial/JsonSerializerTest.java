@@ -5,7 +5,6 @@ import net.mindustry_ddns.filestore.util.TestObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;

@@ -4,7 +4,6 @@ import io.leangen.geantyref.TypeToken;
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.ConfigFactory;
 import org.aeonbits.owner.Factory;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;

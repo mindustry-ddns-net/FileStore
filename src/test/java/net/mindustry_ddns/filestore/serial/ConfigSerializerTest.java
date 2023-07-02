@@ -5,7 +5,6 @@ import net.mindustry_ddns.filestore.util.TestConfig;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;

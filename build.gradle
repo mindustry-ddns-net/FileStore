@@ -10,7 +10,7 @@ sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
 ext.versions = [
-        "gson" : "2.9.0",
+        "gson" : "2.10.1",
         "owner": "1.0.12",
         "junit": "5.8.2",
         "jackson": "2.14.2",
